@@ -367,7 +367,7 @@ var includes = function (target, value) {
   _newArrowCheck(this, _this);
 
   if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('target must b a Object/Array or String');
-  if (!isPosiInteger(position)) throw new TypeError('position must b a Positive integer');
+  if (position !== 0 && !isPosiInteger(position)) throw new TypeError('position must b a Positive integer');
 
   if (isArray(target) || isString(target)) {
     try {
