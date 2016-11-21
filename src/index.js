@@ -232,7 +232,7 @@ const forEach = (target, callbcak) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
  */
 const indexOf = (target, value, fromIndex = 0) => {
-  if (!isArray(target) || !isString(target)) throw new TypeError('target must be a Array or String');
+  if (!isArray(target) && !isString(target)) throw new TypeError('target must be a Array or String');
 
   if (isString(target)) return target.indexOf(value, fromIndex);
 
@@ -262,7 +262,7 @@ const indexOf = (target, value, fromIndex = 0) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
  */
 const includes = (target, value, position = 0) => {
-  if (!isArray(target) || !isString(target) || !isObject(target)) throw new TypeError('target must b a Object/Array or String');
+  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('target must b a Object/Array or String');
   if (!isPosiInteger(position)) throw new TypeError('position must b a Positive integer');
 
   if (isArray(target) || isString(target)) {
