@@ -599,14 +599,14 @@ var separate = function (source) {
     };
   } else {
     for (var _i3 = 0, count = 0, _len2 = source.length; _i3 < _len2; _i3++) {
+      if (result.length === rule.length) return result;
+
       if (rule[_i3 + count] === ';') {
         count++;
         result += separator;
       };
 
       result += source[_i3];
-
-      if (result.length === rule.length) return result;
     };
   };
 
