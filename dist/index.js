@@ -598,8 +598,9 @@ var separate = function (source) {
       if (i + 1 > length - 1) break;
     };
   } else {
-    for (var _i3 = 0, _len2 = source.length; _i3 < _len2; _i3++) {
-      if (source[_i3] === ';') {
+    for (var _i3 = 0, count = 0, _len2 = source.length; _i3 < _len2; _i3++) {
+      if (rule[_i3 + count] === ';') {
+        count++;
         result += separator;
       } else {
         result += source[_i3];
