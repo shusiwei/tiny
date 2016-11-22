@@ -602,9 +602,9 @@ var separate = function (source) {
       if (rule[_i3 + count] === ';') {
         count++;
         result += separator;
-      } else {
-        result += source[_i3];
       };
+
+      result += source[_i3];
     };
   };
 

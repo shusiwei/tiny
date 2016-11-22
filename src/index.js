@@ -451,9 +451,9 @@ const separate = (source, rule = 4, separator = ' ') => {
       if (rule[i + count] === ';') {
         count++;
         result += separator;
-      } else {
-        result += source[i];
       };
+
+      result += source[i];
     };
   };
 
