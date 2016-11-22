@@ -605,6 +605,8 @@ var separate = function (source) {
       };
 
       result += source[_i3];
+
+      if (result.length === rule.length) return result;
     };
   };
 

@@ -454,6 +454,8 @@ const separate = (source, rule = 4, separator = ' ') => {
       };
 
       result += source[i];
+
+      if (result.length === rule.length) return result;
     };
   };
 
