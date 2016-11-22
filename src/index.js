@@ -252,7 +252,7 @@ const indexOf = (target, value, fromIndex = 0) => {
 /**
  * @name 判断一个对象中是否包含某个值
  *
- * @params {Object} target 检测的对象
+ * @params {String/Array/Object} target 检测的对象
  * @params {Anythin} value 任意值
  * @params {Number} position [0] 开始查找的位置
  *
@@ -383,7 +383,7 @@ const trimRight = (string) => {
  */
 const padStart = (string, length, chars = ' ') => {
   if (!isString(string)) throw new TypeError('string must b a String');
-  if (!isInteger(length)) throw new TypeError('string must b a Positive integer');
+  if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
   try {
@@ -401,14 +401,14 @@ const padStart = (string, length, chars = ' ') => {
  * @name 使用占位字符在一个字符串后面不断直译直到达到一个固定长度
  *
  * @params {String} string 操作的字符串
- * @params {Number} length 目录长度
+ * @params {Number} length [0] 目录长度
  * @params {String} string[' '] 占位字符
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const padEnd = (string, length = 0, chars = ' ') => {
   if (!isString(string)) throw new TypeError('string must b a String');
-  if (!isInteger(length)) throw new TypeError('string must b a Positive integer');
+  if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
   try {
@@ -420,6 +420,43 @@ const padEnd = (string, length = 0, chars = ' ') => {
 
     return string.slice(0, length);
   }
+};
+
+/**
+ * @name 使用分隔符对字符串进行分割
+ *
+ * @params {String} source 操作的字符串
+ * @params {String, Number} rule [4] 如果为整数，则按此长度分割，如果为字符串，则将字符串中的';'作为做分隔占位符
+ * @params {String} separator[' '] 分隔字符
+ *
+ * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+ */
+const separate = (source, rule = 4, separator = ' ') => {
+  if (!isString(source)) throw new TypeError('source must b a String');
+  if (!isString(rule) && !isPosiInteger(rule)) throw new TypeError('rule must b a String or Positive integer');
+  if (!isString(separator)) throw new TypeError(' && !isPosiInteger(rule) must b a String or space');
+
+  let result = '';
+
+  if (isPosiInteger(rule)) {
+    for (let i = 0, len = source.length; i < len; i++) {
+      if (i > 0 && i % rule === 0) result += separator;
+
+      result += source[i];
+
+      if (i + 1 > length - 1) break;
+    };
+  } else {
+    for (let i = 0, len = source.length; i < len; i++) {
+      if (source[i] === ';') {
+        result += separator;
+      } else {
+        result += source[i];
+      };
+    };
+  };
+
+  return result;
 };
 
 /*
@@ -455,7 +492,7 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, now, random, randomStamp};
+const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, now, random, randomStamp};
 
-export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, now, random, randomStamp};
+export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, now, random, randomStamp};
 export default _;

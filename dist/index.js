@@ -352,7 +352,7 @@ var indexOf = function (target, value) {
 /**
  * @name 判断一个对象中是否包含某个值
  *
- * @params {Object} target 检测的对象
+ * @params {String/Array/Object} target 检测的对象
  * @params {Anythin} value 任意值
  * @params {Number} position [0] 开始查找的位置
  *
@@ -524,7 +524,7 @@ var padStart = function (string, length) {
   _newArrowCheck(this, _this);
 
   if (!isString(string)) throw new TypeError('string must b a String');
-  if (!isInteger(length)) throw new TypeError('string must b a Positive integer');
+  if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
   try {
@@ -542,7 +542,7 @@ var padStart = function (string, length) {
  * @name 使用占位字符在一个字符串后面不断直译直到达到一个固定长度
  *
  * @params {String} string 操作的字符串
- * @params {Number} length 目录长度
+ * @params {Number} length [0] 目录长度
  * @params {String} string[' '] 占位字符
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
@@ -554,7 +554,7 @@ var padEnd = function (string) {
   _newArrowCheck(this, _this);
 
   if (!isString(string)) throw new TypeError('string must b a String');
-  if (!isInteger(length)) throw new TypeError('string must b a Positive integer');
+  if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
   try {
@@ -566,6 +566,48 @@ var padEnd = function (string) {
 
     return string.slice(0, length);
   }
+}.bind(this);
+
+/**
+ * @name 使用分隔符对字符串进行分割
+ *
+ * @params {String} source 操作的字符串
+ * @params {String, Number} rule [4] 如果为整数，则按此长度分割，如果为字符串，则将字符串中的';'作为做分隔占位符
+ * @params {String} separator[' '] 分隔字符
+ *
+ * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+ */
+var separate = function (source) {
+  var rule = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
+  var separator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ' ';
+
+  _newArrowCheck(this, _this);
+
+  if (!isString(source)) throw new TypeError('source must b a String');
+  if (!isString(rule) && !isPosiInteger(rule)) throw new TypeError('rule must b a String or Positive integer');
+  if (!isString(separator)) throw new TypeError(' && !isPosiInteger(rule) must b a String or space');
+
+  var result = '';
+
+  if (isPosiInteger(rule)) {
+    for (var i = 0, len = source.length; i < len; i++) {
+      if (i > 0 && i % rule === 0) result += separator;
+
+      result += source[i];
+
+      if (i + 1 > length - 1) break;
+    };
+  } else {
+    for (var _i3 = 0, _len2 = source.length; _i3 < _len2; _i3++) {
+      if (source[_i3] === ';') {
+        result += separator;
+      } else {
+        result += source[_i3];
+      };
+    };
+  };
+
+  return result;
 }.bind(this);
 
 /*
@@ -613,7 +655,7 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isArray: isArray, isObjectLike: isObjectLike, isObject: isObject, isPlainObject: isPlainObject, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, now: now, random: random, randomStamp: randomStamp };
+var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isArray: isArray, isObjectLike: isObjectLike, isObject: isObject, isPlainObject: isPlainObject, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, now: now, random: random, randomStamp: randomStamp };
 
-export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, now, random, randomStamp };
+export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, now, random, randomStamp };
 export default _;
