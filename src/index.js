@@ -434,7 +434,7 @@ const padEnd = (string, length = 0, chars = ' ') => {
 const separate = (source, rule = 4, separator = ' ') => {
   if (!isString(source)) throw new TypeError('source must b a String');
   if (!isString(rule) && !isPosiInteger(rule)) throw new TypeError('rule must b a String or Positive integer');
-  if (!isString(separator)) throw new TypeError(' && !isPosiInteger(rule) must b a String or space');
+  if (!isString(separator)) throw new TypeError('separator must b a String or space');
 
   let result = '';
 

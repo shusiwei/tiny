@@ -585,7 +585,7 @@ var separate = function (source) {
 
   if (!isString(source)) throw new TypeError('source must b a String');
   if (!isString(rule) && !isPosiInteger(rule)) throw new TypeError('rule must b a String or Positive integer');
-  if (!isString(separator)) throw new TypeError(' && !isPosiInteger(rule) must b a String or space');
+  if (!isString(separator)) throw new TypeError('separator must b a String or space');
 
   var result = '';
 
