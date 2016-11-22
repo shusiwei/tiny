@@ -448,14 +448,14 @@ const separate = (source, rule = 4, separator = ' ') => {
     };
   } else {
     for (let i = 0, count = 0, len = source.length; i < len; i++) {
-      if (result.length === rule.length) return result;
-
       if (rule[i + count] === ';') {
         count++;
         result += separator;
       };
 
       result += source[i];
+
+      if (result.length === rule.length) return result;
     };
   };
 
