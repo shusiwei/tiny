@@ -595,7 +595,7 @@ var separate = function (source) {
 
       result += source[i];
 
-      if (i + 1 > length - 1) break;
+      if (i + 1 === len) break;
     };
   } else {
     for (var _i3 = 0, count = 0, _len2 = source.length; _i3 < _len2; _i3++) {

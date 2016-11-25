@@ -444,7 +444,7 @@ const separate = (source, rule = 4, separator = ' ') => {
 
       result += source[i];
 
-      if (i + 1 > length - 1) break;
+      if (i + 1 === len) break;
     };
   } else {
     for (let i = 0, count = 0, len = source.length; i < len; i++) {
