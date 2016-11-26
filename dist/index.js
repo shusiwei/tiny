@@ -613,6 +613,88 @@ var separate = function (source) {
   return result;
 }.bind(this);
 
+/**
+ * @name 清空一个数组
+ *
+ * @params {Array} target 操作的数组
+ *
+ * @return {Array} 清空后的数组
+ */
+var empty = function (target) {
+  _newArrowCheck(this, _this);
+
+  if (!isArray(target)) throw new TypeError('target must be a Array');
+
+  return target.splice(0, target.length);
+}.bind(this);
+
+/**
+ * @name 将其它数组的值拉入第一个数组
+ *
+ * @params {Array} target 操作的数组
+ * @params {Array} sources 一个或多个数组
+ *
+ * @return {Array} 被拉入数据的target数组
+ */
+var append = function (target) {
+  for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key2 = 1; _key2 < _len3; _key2++) {
+    sources[_key2 - 1] = arguments[_key2];
+  }
+
+  _newArrowCheck(this, _this);
+
+  if (!isArray(target)) throw new TypeError('target must be a Array');
+
+  var _loop = function _loop() {
+    if (_isArray2) {
+      if (_i4 >= _iterator2.length) return 'break';
+      _ref2 = _iterator2[_i4++];
+    } else {
+      _i4 = _iterator2.next();
+      if (_i4.done) return 'break';
+      _ref2 = _i4.value;
+    }
+
+    var source = _ref2;
+
+    if (!isArray(source)) throw new TypeError('source must be a Array');
+
+    forEach(source, function (item) {
+      _newArrowCheck(this, _this);
+
+      target.push(source);
+    }.bind(_this));
+  };
+
+  for (var _iterator2 = sources, _isArray2 = Array.isArray(_iterator2), _i4 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+    var _ref2;
+
+    var _ret2 = _loop();
+
+    if (_ret2 === 'break') break;
+  };
+
+  return target;
+}.bind(this);
+
+/**
+ * @name 将其它数组的值替换第一个数组的值
+ *
+ * @params {Array} target 操作的数组
+ * @params {Array} sources 一个或多个数组
+ *
+ * @return {Array} 被替换掉数据的target数组
+ */
+var replace = function (target) {
+  for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key3 = 1; _key3 < _len4; _key3++) {
+    sources[_key3 - 1] = arguments[_key3];
+  }
+
+  _newArrowCheck(this, _this);
+
+  return append.apply(undefined, [empty(target)].concat(sources));
+}.bind(this);
+
 /*
  * @name 得到当前时间戳
  *
@@ -658,7 +740,7 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isArray: isArray, isObjectLike: isObjectLike, isObject: isObject, isPlainObject: isPlainObject, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, now: now, random: random, randomStamp: randomStamp };
+var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isArray: isArray, isObjectLike: isObjectLike, isObject: isObject, isPlainObject: isPlainObject, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
 
-export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, now, random, randomStamp };
+export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
 export default _;

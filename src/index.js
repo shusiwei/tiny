@@ -462,6 +462,51 @@ const separate = (source, rule = 4, separator = ' ') => {
   return result;
 };
 
+/**
+ * @name 清空一个数组
+ *
+ * @params {Array} target 操作的数组
+ *
+ * @return {Array} 清空后的数组
+ */
+const empty = (target) => {
+  if (!isArray(target)) throw new TypeError('target must be a Array');
+
+  return target.splice(0, target.length);
+};
+
+/**
+ * @name 将其它数组的值拉入第一个数组
+ *
+ * @params {Array} target 操作的数组
+ * @params {Array} sources 一个或多个数组
+ *
+ * @return {Array} 被拉入数据的target数组
+ */
+const append = (target, ...sources) => {
+  if (!isArray(target)) throw new TypeError('target must be a Array');
+
+  for (let source of sources) {
+    if (!isArray(source)) throw new TypeError('source must be a Array');
+
+    forEach(source, item => {
+      target.push(source);
+    });
+  };
+
+  return target;
+};
+
+/**
+ * @name 将其它数组的值替换第一个数组的值
+ *
+ * @params {Array} target 操作的数组
+ * @params {Array} sources 一个或多个数组
+ *
+ * @return {Array} 被替换掉数据的target数组
+ */
+const replace = (target, ...sources) => append(empty(target), ...sources);
+
 /*
  * @name 得到当前时间戳
  *
@@ -495,7 +540,7 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, now, random, randomStamp};
+const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 
-export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, now, random, randomStamp};
+export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 export default _;
