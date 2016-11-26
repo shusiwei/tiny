@@ -490,7 +490,7 @@ const append = (target, ...sources) => {
     if (!isArray(source)) throw new TypeError('source must be a Array');
 
     forEach(source, item => {
-      target.push(source);
+      target.push(item);
     });
   };
 

@@ -645,13 +645,15 @@ var append = function (target) {
 
   if (!isArray(target)) throw new TypeError('target must be a Array');
 
-  var _loop = function _loop() {
+  for (var _iterator2 = sources, _isArray2 = Array.isArray(_iterator2), _i4 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+    var _ref2;
+
     if (_isArray2) {
-      if (_i4 >= _iterator2.length) return 'break';
+      if (_i4 >= _iterator2.length) break;
       _ref2 = _iterator2[_i4++];
     } else {
       _i4 = _iterator2.next();
-      if (_i4.done) return 'break';
+      if (_i4.done) break;
       _ref2 = _i4.value;
     }
 
@@ -662,16 +664,8 @@ var append = function (target) {
     forEach(source, function (item) {
       _newArrowCheck(this, _this);
 
-      target.push(source);
-    }.bind(_this));
-  };
-
-  for (var _iterator2 = sources, _isArray2 = Array.isArray(_iterator2), _i4 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-    var _ref2;
-
-    var _ret2 = _loop();
-
-    if (_ret2 === 'break') break;
+      target.push(item);
+    }.bind(this));
   };
 
   return target;
