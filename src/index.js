@@ -197,6 +197,24 @@ const isPosiFloat = (value) => isFloat(value) && isPositive(value);
 const isNegaFloat = (value) => isFloat(value) && isNegative(value);
 
 /*
+ * @name 判断一个对象的数据类型是否为Arguments
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isArguments = (value) => getProtoType(value) === 'arguments';
+
+/*
+ * @name 判断一个对象的数据类型是否为Error类型
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isError = (value) => getProtoType(value) === 'error';
+
+/*
  * @name 对一个对象/字符串/正整数进行遍历
  *
  * @params {Array, Object, String, Number} target 可进行遍历的对象或个数
@@ -236,9 +254,9 @@ const indexOf = (target, value, fromIndex = 0) => {
 
   if (isString(target)) return target.indexOf(value, fromIndex);
 
-  try {
+  if (isFunction(Array.prototype.indexOf)) {
     return target.indexOf(value);
-  } catch (error) {
+  } else {
     const index = -1;
 
     for (let i = fromIndex, len = target.length; i < len; i++) {
@@ -265,10 +283,16 @@ const includes = (target, value, position = 0) => {
   if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('target must b a Object/Array or String');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('position must b a Positive integer');
 
-  if (isArray(target) || isString(target)) {
-    try {
+  if (isArray(target)) {
+    if (Array.prototype.includes) {
       return target.includes(value);
-    } catch (error) {
+    } else {
+      return indexOf(target, value, position) > -1;
+    }
+  } else if (isString(target)) {
+    if (String.prototype.includes) {
+      return target.includes(value);
+    } else {
       return indexOf(target, value, position) > -1;
     }
   } else if (isObject(target)) {
@@ -295,9 +319,9 @@ const includes = (target, value, position = 0) => {
 const assign = (target, ...sources) => {
   if (!isObject(target)) throw new TypeError('target must be a Object');
 
-  try {
+  if (isFunction(Object.assign)) {
     return Object.assign(target, ...sources);
-  } catch (error) {
+  } else {
     for (let source of sources) {
       if (isObject(source)) {
         for (let key in source) {
@@ -325,9 +349,9 @@ const trimRegex = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
 const trim = (string) => {
   if (!isString(string)) throw new TypeError('string must b a String');
 
-  try {
+  if (isFunction(String.prototype.trim)) {
     return string.trim();
-  } catch (error) {
+  } else {
     return string.replace(trimRegex, '');
   }
 };
@@ -345,9 +369,9 @@ const trimLeftRegex = /^[\s\uFEFF\xA0]+/;
 const trimLeft = (string) => {
   if (!isString(string)) throw new TypeError('string must b a String');
 
-  try {
+  if (isFunction(String.prototype.trimLeft)) {
     return string.trimLeft();
-  } catch (error) {
+  } else {
     return string.replace(trimLeftRegex, '');
   }
 };
@@ -365,9 +389,9 @@ const trimRightRegex = /[\s\uFEFF\xA0]+$/;
 const trimRight = (string) => {
   if (!isString(string)) throw new TypeError('string must b a String');
 
-  try {
+  if (isFunction(String.prototype.trimRight)) {
     return string.trimRight();
-  } catch (error) {
+  } else {
     return string.replace(trimRightRegex, '');
   }
 };
@@ -386,9 +410,9 @@ const padStart = (string, length, chars = ' ') => {
   if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
-  try {
+  if (isFunction(String.prototype.padStart)) {
     return string.padStart(length, chars);
-  } catch (error) {
+  } else {
     while (string.length < length) {
       string = chars + string;
     };
@@ -411,9 +435,9 @@ const padEnd = (string, length = 0, chars = ' ') => {
   if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
-  try {
+  if (isFunction(String.prototype.padEnd)) {
     return string.padEnd(length, chars);
-  } catch (error) {
+  } else {
     while (string.length < length) {
       string += chars;
     };
@@ -472,7 +496,11 @@ const separate = (source, rule = 4, separator = ' ') => {
 const empty = (target) => {
   if (!isArray(target)) throw new TypeError('target must be a Array');
 
-  return target.splice(0, target.length);
+  // 清空所有的值
+  target.splice(0, target.length);
+
+  // 返回空数组
+  return target;
 };
 
 /**
@@ -540,7 +568,7 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isArguments, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 
-export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isArguments, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 export default _;

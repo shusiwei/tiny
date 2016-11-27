@@ -291,6 +291,32 @@ var isNegaFloat = function (value) {
 }.bind(this);
 
 /*
+ * @name 判断一个对象的数据类型是否为Arguments
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isArguments = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'arguments';
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为Error类型
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isError = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'error';
+}.bind(this);
+
+/*
  * @name 对一个对象/字符串/正整数进行遍历
  *
  * @params {Array, Object, String, Number} target 可进行遍历的对象或个数
@@ -336,9 +362,9 @@ var indexOf = function (target, value) {
 
   if (isString(target)) return target.indexOf(value, fromIndex);
 
-  try {
+  if (isFunction(Array.prototype.indexOf)) {
     return target.indexOf(value);
-  } catch (error) {
+  } else {
     var index = -1;
 
     for (var i = fromIndex, len = target.length; i < len; i++) {
@@ -369,10 +395,16 @@ var includes = function (target, value) {
   if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('target must b a Object/Array or String');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('position must b a Positive integer');
 
-  if (isArray(target) || isString(target)) {
-    try {
+  if (isArray(target)) {
+    if (Array.prototype.includes) {
       return target.includes(value);
-    } catch (error) {
+    } else {
+      return indexOf(target, value, position) > -1;
+    }
+  } else if (isString(target)) {
+    if (String.prototype.includes) {
+      return target.includes(value);
+    } else {
       return indexOf(target, value, position) > -1;
     }
   } else if (isObject(target)) {
@@ -413,9 +445,9 @@ var assign = function (target) {
 
   if (!isObject(target)) throw new TypeError('target must be a Object');
 
-  try {
+  if (isFunction(Object.assign)) {
     return Object.assign.apply(Object, [target].concat(sources));
-  } catch (error) {
+  } else {
     for (var _iterator = sources, _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
       var _ref;
 
@@ -458,9 +490,9 @@ var trim = function (string) {
 
   if (!isString(string)) throw new TypeError('string must b a String');
 
-  try {
+  if (isFunction(String.prototype.trim)) {
     return string.trim();
-  } catch (error) {
+  } else {
     return string.replace(trimRegex, '');
   }
 }.bind(this);
@@ -480,9 +512,9 @@ var trimLeft = function (string) {
 
   if (!isString(string)) throw new TypeError('string must b a String');
 
-  try {
+  if (isFunction(String.prototype.trimLeft)) {
     return string.trimLeft();
-  } catch (error) {
+  } else {
     return string.replace(trimLeftRegex, '');
   }
 }.bind(this);
@@ -502,9 +534,9 @@ var trimRight = function (string) {
 
   if (!isString(string)) throw new TypeError('string must b a String');
 
-  try {
+  if (isFunction(String.prototype.trimRight)) {
     return string.trimRight();
-  } catch (error) {
+  } else {
     return string.replace(trimRightRegex, '');
   }
 }.bind(this);
@@ -527,9 +559,9 @@ var padStart = function (string, length) {
   if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
-  try {
+  if (isFunction(String.prototype.padStart)) {
     return string.padStart(length, chars);
-  } catch (error) {
+  } else {
     while (string.length < length) {
       string = chars + string;
     };
@@ -557,9 +589,9 @@ var padEnd = function (string) {
   if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
   if (!isString(chars)) throw new TypeError('chars must b a String');
 
-  try {
+  if (isFunction(String.prototype.padEnd)) {
     return string.padEnd(length, chars);
-  } catch (error) {
+  } else {
     while (string.length < length) {
       string += chars;
     };
@@ -625,7 +657,11 @@ var empty = function (target) {
 
   if (!isArray(target)) throw new TypeError('target must be a Array');
 
-  return target.splice(0, target.length);
+  // 清空所有的值
+  target.splice(0, target.length);
+
+  // 返回空数组
+  return target;
 }.bind(this);
 
 /**
@@ -734,7 +770,7 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isArray: isArray, isObjectLike: isObjectLike, isObject: isObject, isPlainObject: isPlainObject, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
+var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isArray: isArray, isObjectLike: isObjectLike, isObject: isObject, isPlainObject: isPlainObject, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, isArguments: isArguments, isError: isError, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
 
-export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
+export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isArguments, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
 export default _;
