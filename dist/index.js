@@ -754,17 +754,17 @@ var random = function () {
  *
  * @return {String} 随机字符戳
  */
-var stampArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+var stampStr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 var randomStamp = function () {
   var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 8;
 
   _newArrowCheck(this, _this);
 
-  var maxIndex = stampArr.length;
+  var maxIndex = stampStr.length;
   var stamp = '';
 
   for (var i = 0; i < length; i++) {
-    stamp += stampArr[Math.floor(Math.random() * maxIndex)];
+    stamp += stampStr[Math.floor(Math.random() * maxIndex)];
   };
 
   return stamp;
