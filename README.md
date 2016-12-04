@@ -1,6 +1,4 @@
-A modern JavaScript utility library
-
-[tiny.js](https://github.com/shusiwei/tiny)一个现代JavaScript实用程序库。
+[tiny.js](https://github.com/shusiwei/tiny)一个现代JavaScript实用程序库，可以运行在NodeJS和现代浏览器中。
 
 该项目代码[托管在GitHub](https://github.com/shusiwei/tiny)
 
@@ -19,6 +17,12 @@ function(a, b[, c, d]) // 参数a, b 为必要参数，c, d为可选参数
 git clone https://github.com/shusiwei/tiny.git
 ```
 
+####npm
+
+```bash
+npm install --save shusiwei/tiny
+```
+
 ####bower
 
 ```bash
@@ -27,59 +31,153 @@ bower install --save shusiwei/tiny
 
 ##使用（Use）
 
-####页面引入
-
-```html
-<script type="text/javascript" src="./js/tiny.js"> // 引入JS文件
-```
-
-###AMD&CMD
-
+####CommonJS
 ```javascript
-// 引入Helper模块
-var tiny = require('tiny');
+const tiny = require('tiny');
+```
+####ES2015
+```javascript
+import tiny form 'tiny';
 
-// es2015
-
-import {tiny} form 'tiny';
+// 或是方法名，例如：
+import {isArray} form 'tiny';
 ```
 
 ##基础方法
 
-####is
-
+####isUndefined
+判断一个值的数据类型是否为undefined
 ```javascript
-tiny.is(type, object) // 判断一个元素是否为某种数据类型
-* type = string // 检测的数据类型 'nickname' : 昵称/姓名, 'cell' : 手机号码, 'tel' : 电话号码, 'phone' : 手机和电话号码, 'email' : 邮箱号码, 'integer' : 整型数字, 'chinese' : 中文字符
-* object = * // 被检测的数据
+isUndefined(undefined)
+// -> true
+
+isUndefined(null)
+// -> false
+
+isUndefined(1)
+// -> false
+
+isUndefined(false)
+// -> false
+```
+
+####isNull
+判断一个值的数据类型是否为null
+```javascript
+isNull(undefined)
+// -> false
+
+isNull(null)
+// -> true
+
+isNull(1)
+// -> false
+
+isNull(false)
+// -> false
+```
+
+####isNumber
+判断一个值的数据类型是否为Number
+```javascript
+isNumber(undefined)
+// -> false
+
+isNumber(null)
+// -> false
+
+isNumber(1)
+// -> true
+
+isNumber(0.98)
+// -> true
+
+isNumber('1.6')
+// -> false
+
+isNumber(false)
+// -> false
+```
+
+####isString
+判断一个值的数据类型是否为String
+```javascript
+isString(undefined)
+// -> false
+
+isString(null)
+// -> false
+
+isString(1)
+// -> false
+
+isString(0.98)
+// -> false
+
+isString('1.6')
+// -> true
+
+isString('hello world')
+// -> true
+
+isString('')
+// -> true
+
+isString(false)
+// -> false
+```
+
+####isBoolean
+判断一个值的数据类型是否为Boolean
+```javascript
+isBoolean(undefined)
+// -> false
+
+isBoolean(null)
+// -> false
+
+isBoolean({key: value})
+// -> false
+
+isBoolean(1)
+// -> false
+
+isBoolean(0.98)
+// -> false
+
+isBoolean('hello world')
+// -> false
+
+isBoolean(false)
+// -> true
 ```
 
 ```javascript
-tiny.isUndefined(value) // 判断一个元素是否为undefined
-tiny.isNull(value) // 判断一个元素是否为 null
-tiny.isObject(object) // 判断一个元素是否为object
-tiny.isNumber(object) // 判断一个元素是否为一个数字
-tiny.isArray(object) // 判断一个元素是否为一个数组
-tiny.isString(object) // 判断一个元素是否为字符串
-tiny.isFunction(object) // 判断一个元素是否为函数
-tiny.isBoolean(value) // 判断一个元素是否为布尔值
-tiny.isRegExp(value) // 判断一个元素是否为正则
-tiny.isDate(object) // 判断一个元素是否为一个Date对象
-tiny.isElement(object) // 判断一个元素是否为 DOM对象
-tiny.isNodeList(object) // 判断一个元素是否为 DOM 集合
+isUndefined(value) // 判断一个元素是否为undefined
+isNull(value) // 判断一个元素是否为 null
+isObject(object) // 判断一个元素是否为object
+isNumber(object) // 判断一个元素是否为一个数字
+isArray(object) // 判断一个元素是否为一个数组
+isString(object) // 判断一个元素是否为字符串
+isFunction(object) // 判断一个元素是否为函数
+isBoolean(value) // 判断一个元素是否为布尔值
+isRegExp(value) // 判断一个元素是否为正则
+isDate(object) // 判断一个元素是否为一个Date对象
+isElement(object) // 判断一个元素是否为 DOM对象
+isNodeList(object) // 判断一个元素是否为 DOM 集合
 ```
 
 ####indexOf
 
 ```javascript
-tiny.indexOf(object, value) // 得到一个值在某个集合中的索引位置，如果不存在则返回-1
+indexOf(object, value) // 得到一个值在某个集合中的索引位置，如果不存在则返回-1
 * object = array/object/string // 集合
 * value = * // 值
 ```
 
 ####includes
 ```javascript
-tiny.includes(object, value) // 得到一个集合中是否包含某个值
+includes(object, value) // 得到一个集合中是否包含某个值
 * object = array/object/string // 集合
 * value = * // 值
 ```
