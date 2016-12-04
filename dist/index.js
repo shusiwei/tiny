@@ -17,6 +17,9 @@ var getProtoType = function (object) {
   return Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
 }.bind(this);
 
+// 最大数组长度
+var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+
 /*
  * @name 判断一个对象是否为undefined
  *
@@ -96,32 +99,6 @@ var isFunction = function (value) {
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isArray = function (value) {
-  _newArrowCheck(this, _this);
-
-  return getProtoType(value) === 'array';
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isObjectLike = function (value) {
-  _newArrowCheck(this, _this);
-
-  return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object' && value !== null;
-}.bind(this);
-
-/*
  * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
  *
  * @params {Anything} value 任何类型的数据
@@ -131,7 +108,7 @@ var isObjectLike = function (value) {
 var isObject = function (value) {
   _newArrowCheck(this, _this);
 
-  return isObjectLike(value) && !isArray(value);
+  return getProtoType(value) === 'object';
 }.bind(this);
 
 /*
@@ -145,6 +122,62 @@ var isPlainObject = function (value) {
   _newArrowCheck(this, _this);
 
   return isObject(value) && value.constructor === Object;
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isArray = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'array';
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为Arguments
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isArguments = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'arguments';
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isArrayLike = function (value) {
+  _newArrowCheck(this, _this);
+
+  if (isUndefined(value) || isNull(value) || isObject(value) || isFunction(value) || value === window) return false;
+
+  var length = value.length;
+
+  return isNumber(length) && Math.floor(length) === length && length <= MAX_ARRAY_INDEX && (length === 0 || length > 0 && value.hasOwnProperty(length - 1));
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isObjectLike = function (value) {
+  _newArrowCheck(this, _this);
+
+  return isObject(value) || isArrayLike(value);
 }.bind(this);
 
 /*
@@ -288,19 +321,6 @@ var isNegaFloat = function (value) {
   _newArrowCheck(this, _this);
 
   return isFloat(value) && isNegative(value);
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为Arguments
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isArguments = function (value) {
-  _newArrowCheck(this, _this);
-
-  return getProtoType(value) === 'arguments';
 }.bind(this);
 
 /*
@@ -770,7 +790,7 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isArray: isArray, isObjectLike: isObjectLike, isObject: isObject, isPlainObject: isPlainObject, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, isArguments: isArguments, isError: isError, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
+var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isObject: isObject, isPlainObject: isPlainObject, isArray: isArray, isArguments: isArguments, isArrayLike: isArrayLike, isObjectLike: isObjectLike, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, isError: isError, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
 
-export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isArguments, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
+export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isObject, isPlainObject, isArray, isArguments, isArrayLike, isObjectLike, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
 export default _;

@@ -7,6 +7,9 @@
  */
 const getProtoType = (object) => Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
 
+// 最大数组长度
+const MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+
 /*
  * @name 判断一个对象是否为undefined
  *
@@ -62,31 +65,13 @@ const isBoolean = (value) => typeof value === 'boolean';
 const isFunction = (value) => typeof value === 'function';
 
 /*
- * @name 判断一个对象的数据类型是否为数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isArray = (value) => getProtoType(value) === 'array';
-
-/*
- * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isObjectLike = (value) => typeof value === 'object' && value !== null;
-
-/*
  * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isObject = (value) => isObjectLike(value) && !isArray(value);
+const isObject = (value) => getProtoType(value) === 'object';
 
 /*
  * @name 判断一个对象的数据类型是否为对象，包括原生对象
@@ -96,6 +81,48 @@ const isObject = (value) => isObjectLike(value) && !isArray(value);
  * @return {Boolean} 真或假
  */
 const isPlainObject = (value) => isObject(value) && value.constructor === Object;
+
+/*
+ * @name 判断一个对象的数据类型是否为数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isArray = (value) => getProtoType(value) === 'array';
+
+/*
+ * @name 判断一个对象的数据类型是否为Arguments
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isArguments = (value) => getProtoType(value) === 'arguments';
+
+/*
+ * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isArrayLike = (value) => {
+  if (isUndefined(value) || isNull(value) || isObject(value) || isFunction(value) || value === window) return false;
+
+  const length = value.length;
+
+  return isNumber(length) && Math.floor(length) === length && length <= MAX_ARRAY_INDEX && (length === 0 || (length > 0 && value.hasOwnProperty(length - 1)));
+};
+
+/*
+ * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isObjectLike = (value) => isObject(value) || isArrayLike(value);
 
 /*
  * @name 判断一个对象的数据类型是否为正则表达式
@@ -195,15 +222,6 @@ const isPosiFloat = (value) => isFloat(value) && isPositive(value);
  * @return {Boolean} 真或假
  */
 const isNegaFloat = (value) => isFloat(value) && isNegative(value);
-
-/*
- * @name 判断一个对象的数据类型是否为Arguments
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isArguments = (value) => getProtoType(value) === 'arguments';
 
 /*
  * @name 判断一个对象的数据类型是否为Error类型
@@ -568,7 +586,7 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isArguments, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isObject, isPlainObject, isArray, isArguments, isArrayLike, isObjectLike, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 
-export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isArray, isObjectLike, isObject, isPlainObject, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isArguments, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isObject, isPlainObject, isArray, isArguments, isArrayLike, isObjectLike, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 export default _;

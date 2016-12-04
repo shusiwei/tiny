@@ -1,13 +1,14 @@
 [tiny.js](https://github.com/shusiwei/tiny)一个现代JavaScript实用程序库，可以运行在NodeJS和现代浏览器中。
-
 该项目代码[托管在GitHub](https://github.com/shusiwei/tiny)
 
-##阅读说明
+##注释说明
 
 ```javascript
-function(a, b[, c, d]) // 参数a, b 为必要参数，c, d为可选参数
-* a = String ['app'] // 参数a的数据类型为 string , 默认参数为'app'，* 代表必填参数, [] 代表参数默认值
-// 这是里条注释 ['route/a', 'route/old/a'] // 参数书写范例（仅限 [ ] 括号中的内容）
+// 参数a, b 为必要参数，c, d为可选参数
+function(a, b[, c, d]) {
+
+}
+* a = String ['default value'] // 参数a的数据类型为 string , 默认参数为'default value'，* 代表必填参数, [] 代表参数默认值
 ```
 
 ##安装
@@ -29,12 +30,13 @@ npm install --save shusiwei/tiny
 bower install --save shusiwei/tiny
 ```
 
-##使用（Use）
+##使用
 
 ####CommonJS
 ```javascript
 const tiny = require('tiny');
 ```
+
 ####ES2015
 ```javascript
 import tiny form 'tiny';
@@ -43,7 +45,7 @@ import tiny form 'tiny';
 import {isArray} form 'tiny';
 ```
 
-##基础方法
+##方法
 
 ####isUndefined
 判断一个值的数据类型是否为undefined
@@ -52,12 +54,6 @@ isUndefined(undefined)
 // -> true
 
 isUndefined(null)
-// -> false
-
-isUndefined(1)
-// -> false
-
-isUndefined(false)
 // -> false
 ```
 
@@ -69,23 +65,11 @@ isNull(undefined)
 
 isNull(null)
 // -> true
-
-isNull(1)
-// -> false
-
-isNull(false)
-// -> false
 ```
 
 ####isNumber
 判断一个值的数据类型是否为Number
 ```javascript
-isNumber(undefined)
-// -> false
-
-isNumber(null)
-// -> false
-
 isNumber(1)
 // -> true
 
@@ -94,24 +78,12 @@ isNumber(0.98)
 
 isNumber('1.6')
 // -> false
-
-isNumber(false)
-// -> false
 ```
 
 ####isString
 判断一个值的数据类型是否为String
 ```javascript
-isString(undefined)
-// -> false
-
-isString(null)
-// -> false
-
-isString(1)
-// -> false
-
-isString(0.98)
+isString(1.6)
 // -> false
 
 isString('1.6')
@@ -122,9 +94,6 @@ isString('hello world')
 
 isString('')
 // -> true
-
-isString(false)
-// -> false
 ```
 
 ####isBoolean
@@ -133,38 +102,69 @@ isString(false)
 isBoolean(undefined)
 // -> false
 
-isBoolean(null)
-// -> false
-
-isBoolean({key: value})
-// -> false
-
 isBoolean(1)
-// -> false
-
-isBoolean(0.98)
-// -> false
-
-isBoolean('hello world')
 // -> false
 
 isBoolean(false)
 // -> true
 ```
 
+####isFunction
+判断一个值的数据类型是否为Boolean
 ```javascript
-isUndefined(value) // 判断一个元素是否为undefined
-isNull(value) // 判断一个元素是否为 null
-isObject(object) // 判断一个元素是否为object
-isNumber(object) // 判断一个元素是否为一个数字
-isArray(object) // 判断一个元素是否为一个数组
-isString(object) // 判断一个元素是否为字符串
-isFunction(object) // 判断一个元素是否为函数
-isBoolean(value) // 判断一个元素是否为布尔值
-isRegExp(value) // 判断一个元素是否为正则
-isDate(object) // 判断一个元素是否为一个Date对象
-isElement(object) // 判断一个元素是否为 DOM对象
-isNodeList(object) // 判断一个元素是否为 DOM 集合
+isFunction(() => {});
+// -> true
+
+isFunction(parseInt);
+// -> true
+
+isFunction({key: value})
+// -> false
+```
+
+####isObject
+判断一个值的数据类型是否为Object
+```javascript
+isObject({key: value});
+// -> false
+
+isObject(new Foo);
+// -> true
+
+isObject(null);
+
+isObject([1, 2, 3]);
+// -> false
+// -> flase
+```
+
+####isArray
+判断一个值的数据类型是否为Boolean
+```javascript
+isArray([1, 2, 3]);
+// -> true
+
+isArray({0: 1, 1: 2, length: 2});
+// -> flase
+```
+
+####isObjectLike
+判断一个值的数据类型是否为类似于Object的对象
+```javascript
+isObjectLike([1, 2, 3]);
+// -> true
+
+isObjectLike({key: value});
+// -> true
+
+isObjectLike(arguments);
+// -> true
+
+isObjectLike(new Foo);
+// -> true
+
+isObjectLike(null);
+// -> flase
 ```
 
 ####indexOf
