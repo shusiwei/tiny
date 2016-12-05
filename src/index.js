@@ -7,8 +7,11 @@
  */
 const getProtoType = (object) => Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
 
-// 最大数组长度
-const MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+// 最大安全数值
+const MAX_SAFE_INTEGER = 9007199254740991;
+
+// 最大数值
+const MAX_INTEGER = 1.7976931348623157e+308;
 
 /*
  * @name 判断一个对象是否为undefined
@@ -54,93 +57,6 @@ const isString = (value) => typeof value === 'string';
  * @return {Boolean} 真或假
  */
 const isBoolean = (value) => typeof value === 'boolean';
-
-/*
- * @name 判断一个对象的数据类型是否为函数
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isFunction = (value) => typeof value === 'function';
-
-/*
- * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isObject = (value) => getProtoType(value) === 'object';
-
-/*
- * @name 判断一个对象的数据类型是否为对象，包括原生对象
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isPlainObject = (value) => isObject(value) && value.constructor === Object;
-
-/*
- * @name 判断一个对象的数据类型是否为数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isArray = (value) => getProtoType(value) === 'array';
-
-/*
- * @name 判断一个对象的数据类型是否为Arguments
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isArguments = (value) => getProtoType(value) === 'arguments';
-
-/*
- * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isArrayLike = (value) => {
-  if (isUndefined(value) || isNull(value) || isObject(value) || isFunction(value) || value === window) return false;
-
-  const length = value.length;
-
-  return isNumber(length) && Math.floor(length) === length && length <= MAX_ARRAY_INDEX && (length === 0 || (length > 0 && value.hasOwnProperty(length - 1)));
-};
-
-/*
- * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isObjectLike = (value) => isObject(value) || isArrayLike(value);
-
-/*
- * @name 判断一个对象的数据类型是否为正则表达式
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isRegExp = (value) => isObjectLike(value) && value.constructor === RegExp;
-
-/*
- * @name 判断一个对象的数据类型是否为日期
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isDate = (value) => isObjectLike(value) && value.constructor === Date;
 
 /*
  * @name 判断一个对象的数据类型是一个有穷数
@@ -224,6 +140,87 @@ const isPosiFloat = (value) => isFloat(value) && isPositive(value);
 const isNegaFloat = (value) => isFloat(value) && isNegative(value);
 
 /*
+ * @name 判断一个对象的数据类型是否为函数
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isFunction = (value) => typeof value === 'function';
+
+/*
+ * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isObject = (value) => getProtoType(value) === 'object';
+
+/*
+ * @name 判断一个对象的数据类型是否为对象，包括原生对象
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isPlainObject = (value) => isObject(value) && value.constructor === Object;
+
+/*
+ * @name 判断一个对象的数据类型是否为数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isArray = (value) => getProtoType(value) === 'array';
+
+/*
+ * @name 判断一个值是否为一个长度值
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isLength = (value) => isInteger(value) && value > -1 && value <= MAX_SAFE_INTEGER;
+
+/*
+ * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isArrayLike = (object) => !isUndefined(object) && !isNull(object) && !isObject(object) && !isFunction(object) && isLength(object.length);
+
+/*
+ * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isObjectLike = (value) => isObject(value) || isArrayLike(value);
+
+/*
+ * @name 判断一个对象的数据类型是否为正则表达式
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isRegExp = (value) => getProtoType(value) === 'regexp';
+
+/*
+ * @name 判断一个对象的数据类型是否为日期
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isDate = (value) => getProtoType(value) === 'date';
+
+/*
  * @name 判断一个对象的数据类型是否为Error类型
  *
  * @params {Anything} value 任何类型的数据
@@ -231,6 +228,15 @@ const isNegaFloat = (value) => isFloat(value) && isNegative(value);
  * @return {Boolean} 真或假
  */
 const isError = (value) => getProtoType(value) === 'error';
+
+/*
+ * @name 判断一个对象的数据类型是否为Arguments
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isArguments = (value) => getProtoType(value) === 'arguments';
 
 /*
  * @name 对一个对象/字符串/正整数进行遍历

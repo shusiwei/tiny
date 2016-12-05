@@ -17,8 +17,11 @@ var getProtoType = function (object) {
   return Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
 }.bind(this);
 
-// 最大数组长度
-var MAX_ARRAY_INDEX = Math.pow(2, 53) - 1;
+// 最大安全数值
+var MAX_SAFE_INTEGER = 9007199254740991;
+
+// 最大数值
+var MAX_INTEGER = 1.7976931348623157e+308;
 
 /*
  * @name 判断一个对象是否为undefined
@@ -83,127 +86,6 @@ var isBoolean = function (value) {
   _newArrowCheck(this, _this);
 
   return typeof value === 'boolean';
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为函数
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isFunction = function (value) {
-  _newArrowCheck(this, _this);
-
-  return typeof value === 'function';
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isObject = function (value) {
-  _newArrowCheck(this, _this);
-
-  return getProtoType(value) === 'object';
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为对象，包括原生对象
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isPlainObject = function (value) {
-  _newArrowCheck(this, _this);
-
-  return isObject(value) && value.constructor === Object;
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isArray = function (value) {
-  _newArrowCheck(this, _this);
-
-  return getProtoType(value) === 'array';
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为Arguments
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isArguments = function (value) {
-  _newArrowCheck(this, _this);
-
-  return getProtoType(value) === 'arguments';
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isArrayLike = function (value) {
-  _newArrowCheck(this, _this);
-
-  if (isUndefined(value) || isNull(value) || isObject(value) || isFunction(value) || value === window) return false;
-
-  var length = value.length;
-
-  return isNumber(length) && Math.floor(length) === length && length <= MAX_ARRAY_INDEX && (length === 0 || length > 0 && value.hasOwnProperty(length - 1));
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isObjectLike = function (value) {
-  _newArrowCheck(this, _this);
-
-  return isObject(value) || isArrayLike(value);
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为正则表达式
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isRegExp = function (value) {
-  _newArrowCheck(this, _this);
-
-  return isObjectLike(value) && value.constructor === RegExp;
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为日期
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isDate = function (value) {
-  _newArrowCheck(this, _this);
-
-  return isObjectLike(value) && value.constructor === Date;
 }.bind(this);
 
 /*
@@ -324,6 +206,123 @@ var isNegaFloat = function (value) {
 }.bind(this);
 
 /*
+ * @name 判断一个对象的数据类型是否为函数
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isFunction = function (value) {
+  _newArrowCheck(this, _this);
+
+  return typeof value === 'function';
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isObject = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'object';
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为对象，包括原生对象
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isPlainObject = function (value) {
+  _newArrowCheck(this, _this);
+
+  return isObject(value) && value.constructor === Object;
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isArray = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'array';
+}.bind(this);
+
+/*
+ * @name 判断一个值是否为一个长度值
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isLength = function (value) {
+  _newArrowCheck(this, _this);
+
+  return isInteger(value) && value > -1 && value <= MAX_SAFE_INTEGER;
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isArrayLike = function (object) {
+  _newArrowCheck(this, _this);
+
+  return !isUndefined(object) && !isNull(object) && !isObject(object) && !isFunction(object) && isLength(object.length);
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isObjectLike = function (value) {
+  _newArrowCheck(this, _this);
+
+  return isObject(value) || isArrayLike(value);
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为正则表达式
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isRegExp = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'regexp';
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为日期
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isDate = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'date';
+}.bind(this);
+
+/*
  * @name 判断一个对象的数据类型是否为Error类型
  *
  * @params {Anything} value 任何类型的数据
@@ -334,6 +333,19 @@ var isError = function (value) {
   _newArrowCheck(this, _this);
 
   return getProtoType(value) === 'error';
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为Arguments
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isArguments = function (value) {
+  _newArrowCheck(this, _this);
+
+  return getProtoType(value) === 'arguments';
 }.bind(this);
 
 /*
