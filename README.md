@@ -67,6 +67,19 @@ isNull(null)
 // -> true
 ```
 
+####isBoolean
+判断一个值的数据类型是否为Boolean
+```javascript
+isBoolean(undefined)
+// -> false
+
+isBoolean(1)
+// -> false
+
+isBoolean(false)
+// -> true
+```
+
 ####isNumber
 判断一个值的数据类型是否为Number
 ```javascript
@@ -77,6 +90,161 @@ isNumber(0.98)
 // -> true
 
 isNumber('1.6')
+// -> false
+```
+
+####isFinite
+判断一个值是否为有穷数
+```javascript
+isFinite(15)
+// -> true
+
+isFinite(Number.MIN_VALUE)
+// -> false
+
+isFinite(Infinity)
+// -> false
+
+isFinite(NaN)
+// -> false
+
+isFinite('8')
+// -> false
+```
+
+####isInteger
+判断一个值是否为整数
+```javascript
+isInteger(15)
+// -> true
+
+isInteger(0)
+// -> true
+
+isInteger(1.8)
+// -> false
+```
+
+####isFloat
+判断一个值是否为浮点数
+```javascript
+isFloat(15)
+// -> false
+
+isFloat(0)
+// -> false
+
+isFloat(1.8)
+// -> false
+```
+
+####isSafeInteger
+判断一个值是否为浮点数
+```javascript
+isSafeInteger(15)
+// -> true
+
+isSafeInteger(0)
+// -> true
+
+isSafeInteger(1.8)
+// -> false
+```
+
+####isPositive
+判断一个值是否为正数
+```javascript
+isPositive(15)
+// -> true
+
+isPositive(0)
+// -> false
+
+isPositive(-1.5)
+// -> false
+```
+
+####isNegative
+判断一个值是否为负数
+```javascript
+isNegative(15)
+// -> false
+
+isNegative(0)
+// -> false
+
+isNegative(-1.5)
+// -> true
+```
+
+
+####isPosiInteger
+判断一个值是否为正整数
+```javascript
+isPosiInteger(15)
+// -> true
+
+isPosiInteger(1.8)
+// -> false
+
+isPosiInteger(-5)
+// -> false
+
+isPosiInteger(0)
+// -> false
+```
+
+####isNegaInteger
+判断一个值是否为负整数
+```javascript
+isNegaInteger(15)
+// -> false
+
+isNegaInteger(1.8)
+// -> false
+
+isNegaInteger(-5)
+// -> true
+
+isNegaInteger(0)
+// -> false
+```
+
+####isPosiFloat
+判断一个值是否为正浮点数
+```javascript
+isPosiFloat(15)
+// -> false
+
+isPosiFloat(1.8)
+// -> true
+
+isPosiFloat(-5)
+// -> false
+
+isPosiFloat(-5.8)
+// -> false
+
+isPosiFloat(0)
+// -> false
+```
+
+####isNegaFloat
+判断一个值是否为负浮点数
+```javascript
+isNegaFloat(15)
+// -> false
+
+isNegaFloat(1.8)
+// -> false
+
+isNegaFloat(-5)
+// -> false
+
+isNegaFloat(-5.8)
+// -> true
+
+isNegaFloat(0)
 // -> false
 ```
 
@@ -93,19 +261,6 @@ isString('hello world')
 // -> true
 
 isString('')
-// -> true
-```
-
-####isBoolean
-判断一个值的数据类型是否为Boolean
-```javascript
-isBoolean(undefined)
-// -> false
-
-isBoolean(1)
-// -> false
-
-isBoolean(false)
 // -> true
 ```
 

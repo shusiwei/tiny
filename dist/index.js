@@ -20,8 +20,11 @@ var getProtoType = function (object) {
 // 最大安全数值
 var MAX_SAFE_INTEGER = 9007199254740991;
 
-// 最大数值
-var MAX_INTEGER = 1.7976931348623157e+308;
+// 最大数
+var MAX_INTEGER = 1.79E+308;
+
+// 最小数
+var MIN_INTEGER = 5e-324;
 
 /*
  * @name 判断一个对象是否为undefined
@@ -50,32 +53,6 @@ var isNull = function (value) {
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为数字
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isNumber = function (value) {
-  _newArrowCheck(this, _this);
-
-  return typeof value === 'number';
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为字符串
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isString = function (value) {
-  _newArrowCheck(this, _this);
-
-  return typeof value === 'string';
-}.bind(this);
-
-/*
  * @name 判断一个对象的数据类型是否为布尔值
  *
  * @params {Anything} value 任何类型的数据
@@ -89,20 +66,71 @@ var isBoolean = function (value) {
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是一个有穷数
+ * @name 判断一个对象的数据类型是否为数字
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-Number.isFinite = Number.isFinite || function (value) {
+var isNumber = function (value) {
   _newArrowCheck(this, _this);
 
-  return isNumber(value) && isFinite(value);
+  return typeof value === 'number';
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为正数
+ * @name 判断一个数值是一个有穷数
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isFinite = function (value) {
+  _newArrowCheck(this, _this);
+
+  if (Number.isFinite) {
+    return Number.isFinite(value);
+  } else {
+    return isNumber(value) && isFinite(value);
+  }
+}.bind(this);
+
+/*
+ * @name 判断一个数值是否为整数，包括正整数和负整数
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isInteger = function (value) {
+  _newArrowCheck(this, _this);
+
+  if (Number.isInteger) {
+    return Number.isInteger(value);
+  } else {
+    return isFinite(value) && Math.floor(value) === value;
+  }
+}.bind(this);
+
+/*
+ * @name 判断一个数值是否为安全整数
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isSafeInteger = function (value) {
+  _newArrowCheck(this, _this);
+
+  if (Number.isSafeInteger) {
+    return Number.isSafeInteger(value);
+  } else {
+    return isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
+  }
+}.bind(this);
+
+/*
+ * @name 判断一个数值是否为正数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -111,11 +139,11 @@ Number.isFinite = Number.isFinite || function (value) {
 var isPositive = function (value) {
   _newArrowCheck(this, _this);
 
-  return Number.isFinite(value) && value > 0;
+  return isFinite(value) && value > 0;
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为负数
+ * @name 判断一个数值是否为负数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -124,24 +152,11 @@ var isPositive = function (value) {
 var isNegative = function (value) {
   _newArrowCheck(this, _this);
 
-  return Number.isFinite(value) && value < 0;
+  return isFinite(value) && value < 0;
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为整数，包括正整数和负整数
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isInteger = Number.isInteger || function (value) {
-  _newArrowCheck(this, _this);
-
-  return Number.isFinite(value) && Math.floor(value) === value;
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为正整数
+ * @name 判断一个数值是否为正整数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -154,7 +169,7 @@ var isPosiInteger = function (value) {
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为负整数
+ * @name 判断一个数值是否为负整数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -167,7 +182,7 @@ var isNegaInteger = function (value) {
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为浮点数，包括正浮点数和负浮点数
+ * @name 判断一个数值是否为浮点数，包括正浮点数和负浮点数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -176,11 +191,11 @@ var isNegaInteger = function (value) {
 var isFloat = function (value) {
   _newArrowCheck(this, _this);
 
-  return Number.isFinite(value) && !isInteger(value);
+  return isFinite(value) && !isInteger(value);
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为正浮点数
+ * @name 判断一个数值是否为正浮点数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -193,7 +208,7 @@ var isPosiFloat = function (value) {
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为负浮点数
+ * @name 判断一个数值是否为负浮点数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -203,6 +218,19 @@ var isNegaFloat = function (value) {
   _newArrowCheck(this, _this);
 
   return isFloat(value) && isNegative(value);
+}.bind(this);
+
+/*
+ * @name 判断一个对象的数据类型是否为字符串
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isString = function (value) {
+  _newArrowCheck(this, _this);
+
+  return typeof value === 'string';
 }.bind(this);
 
 /*
@@ -267,7 +295,7 @@ var isArray = function (value) {
 var isLength = function (value) {
   _newArrowCheck(this, _this);
 
-  return isInteger(value) && value > -1 && value <= MAX_SAFE_INTEGER;
+  return isSafeInteger(value) && value > -1;
 }.bind(this);
 
 /*
@@ -359,17 +387,17 @@ var forEach = function (target, callbcak) {
 
   if (!isObjectLike(target) && !isString(target) && !isPosiInteger(target)) throw new TypeError('target must be a Object/Array/String or Positive integer');
 
-  if (isObject(target)) {
+  if (isArrayLike(target)) {
+    for (var i = 0, len = target.length; i < len; i++) {
+      callbcak(target[i], i, target);
+    };
+  } else if (isObject(target)) {
     for (var key in target) {
       callbcak(target[key], key, target);
     };
   } else if (isPosiInteger(target)) {
-    for (var i = 0; i < target; i++) {
-      callbcak(i, target);
-    };
-  } else if (target.length) {
-    for (var _i = 0, len = target.length; _i < len; _i++) {
-      callbcak(target[_i], _i, target);
+    for (var _i = 0; _i < target; _i++) {
+      callbcak(_i, target);
     };
   };
 }.bind(this);
@@ -390,21 +418,18 @@ var indexOf = function (target, value) {
 
   _newArrowCheck(this, _this);
 
-  if (!isArray(target) && !isString(target)) throw new TypeError('target must be a Array or String');
+  if (!isArrayLike(target) && !isString(target)) throw new TypeError('target must be a Array or String');
 
   if (isString(target)) return target.indexOf(value, fromIndex);
+  if (isArray(target) && isFunction(Array.prototype.indexOf)) return target.indexOf(value);
 
-  if (isFunction(Array.prototype.indexOf)) {
-    return target.indexOf(value);
-  } else {
-    var index = -1;
+  var index = -1;
 
-    for (var i = fromIndex, len = target.length; i < len; i++) {
-      if (target[i] === value) return i;
-    };
+  for (var i = fromIndex, len = target.length; i < len; i++) {
+    if (target[i] === value) return i;
+  };
 
-    return index;
-  }
+  return index;
 }.bind(this);
 
 /**
@@ -439,7 +464,7 @@ var includes = function (target, value) {
     } else {
       return indexOf(target, value, position) > -1;
     }
-  } else if (isObject(target)) {
+  } else if (isObject(target) || isArrayLike(target)) {
     var _ret = function () {
       var result = false;
 
@@ -802,7 +827,7 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-var _ = { isUndefined: isUndefined, isNull: isNull, isNumber: isNumber, isString: isString, isBoolean: isBoolean, isFunction: isFunction, isRegExp: isRegExp, isDate: isDate, isObject: isObject, isPlainObject: isPlainObject, isArray: isArray, isArguments: isArguments, isArrayLike: isArrayLike, isObjectLike: isObjectLike, isPositive: isPositive, isNegative: isNegative, isInteger: isInteger, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, isError: isError, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
+var _ = { isUndefined: isUndefined, isNull: isNull, isBoolean: isBoolean, isNumber: isNumber, isFinite: isFinite, isSafeInteger: isSafeInteger, isPositive: isPositive, isNegative: isNegative, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, isString: isString, isFunction: isFunction, isObject: isObject, isPlainObject: isPlainObject, isArray: isArray, isLength: isLength, isArrayLike: isArrayLike, isObjectLike: isObjectLike, isRegExp: isRegExp, isDate: isDate, isError: isError, isArguments: isArguments, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
 
-export { _, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isObject, isPlainObject, isArray, isArguments, isArrayLike, isObjectLike, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
+export { _, isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
 export default _;

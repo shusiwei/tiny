@@ -10,8 +10,11 @@ const getProtoType = (object) => Object.prototype.toString.call(object).toLowerC
 // 最大安全数值
 const MAX_SAFE_INTEGER = 9007199254740991;
 
-// 最大数值
-const MAX_INTEGER = 1.7976931348623157e+308;
+// 最大数
+const MAX_INTEGER = 1.79E+308;
+
+// 最小数
+const MIN_INTEGER = 5e-324;
 
 /*
  * @name 判断一个对象是否为undefined
@@ -32,24 +35,6 @@ const isUndefined = (value) => value === undefined;
 const isNull = (value) => value === null;
 
 /*
- * @name 判断一个对象的数据类型是否为数字
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isNumber = (value) => typeof value === 'number';
-
-/*
- * @name 判断一个对象的数据类型是否为字符串
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isString = (value) => typeof value === 'string';
-
-/*
  * @name 判断一个对象的数据类型是否为布尔值
  *
  * @params {Anything} value 任何类型的数据
@@ -59,43 +44,79 @@ const isString = (value) => typeof value === 'string';
 const isBoolean = (value) => typeof value === 'boolean';
 
 /*
- * @name 判断一个对象的数据类型是一个有穷数
+ * @name 判断一个对象的数据类型是否为数字
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-Number.isFinite = Number.isFinite || ((value) => isNumber(value) && isFinite(value));
+const isNumber = (value) => typeof value === 'number';
 
 /*
- * @name 判断一个对象的数据类型是否为正数
+ * @name 判断一个数值是一个有穷数
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isPositive = (value) => Number.isFinite(value) && value > 0;
+const isFinite = (value) => {
+  if (Number.isFinite) {
+    return Number.isFinite(value);
+  } else {
+    return isNumber(value) && isFinite(value);
+  }
+};
 
 /*
- * @name 判断一个对象的数据类型是否为负数
+ * @name 判断一个数值是否为整数，包括正整数和负整数
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isNegative = (value) => Number.isFinite(value) && value < 0;
+const isInteger = (value) => {
+  if (Number.isInteger) {
+    return Number.isInteger(value);
+  } else {
+    return isFinite(value) && Math.floor(value) === value;
+  }
+};
 
 /*
- * @name 判断一个对象的数据类型是否为整数，包括正整数和负整数
+ * @name 判断一个数值是否为安全整数
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isInteger = Number.isInteger || ((value) => Number.isFinite(value) && Math.floor(value) === value);
+const isSafeInteger = (value) => {
+  if (Number.isSafeInteger) {
+    return Number.isSafeInteger(value);
+  } else {
+    return isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
+  }
+};
 
 /*
- * @name 判断一个对象的数据类型是否为正整数
+ * @name 判断一个数值是否为正数
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isPositive = (value) => isFinite(value) && value > 0;
+
+/*
+ * @name 判断一个数值是否为负数
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isNegative = (value) => isFinite(value) && value < 0;
+
+/*
+ * @name 判断一个数值是否为正整数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -104,7 +125,7 @@ const isInteger = Number.isInteger || ((value) => Number.isFinite(value) && Math
 const isPosiInteger = (value) => isInteger(value) && isPositive(value);
 
 /*
- * @name 判断一个对象的数据类型是否为负整数
+ * @name 判断一个数值是否为负整数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -113,16 +134,16 @@ const isPosiInteger = (value) => isInteger(value) && isPositive(value);
 const isNegaInteger = (value) => isInteger(value) && isNegative(value);
 
 /*
- * @name 判断一个对象的数据类型是否为浮点数，包括正浮点数和负浮点数
+ * @name 判断一个数值是否为浮点数，包括正浮点数和负浮点数
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isFloat = (value) => Number.isFinite(value) && !isInteger(value);
+const isFloat = (value) => isFinite(value) && !isInteger(value);
 
 /*
- * @name 判断一个对象的数据类型是否为正浮点数
+ * @name 判断一个数值是否为正浮点数
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -131,13 +152,22 @@ const isFloat = (value) => Number.isFinite(value) && !isInteger(value);
 const isPosiFloat = (value) => isFloat(value) && isPositive(value);
 
 /*
- * @name 判断一个对象的数据类型是否为负浮点数
+ * @name 判断一个数值是否为负浮点数
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
 const isNegaFloat = (value) => isFloat(value) && isNegative(value);
+
+/*
+ * @name 判断一个对象的数据类型是否为字符串
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isString = (value) => typeof value === 'string';
 
 /*
  * @name 判断一个对象的数据类型是否为函数
@@ -182,7 +212,7 @@ const isArray = (value) => getProtoType(value) === 'array';
  *
  * @return {Boolean} 真或假
  */
-const isLength = (value) => isInteger(value) && value > -1 && value <= MAX_SAFE_INTEGER;
+const isLength = (value) => isSafeInteger(value) && value > -1;
 
 /*
  * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
@@ -247,17 +277,17 @@ const isArguments = (value) => getProtoType(value) === 'arguments';
 const forEach = (target, callbcak) => {
   if (!isObjectLike(target) && !isString(target) && !isPosiInteger(target)) throw new TypeError('target must be a Object/Array/String or Positive integer');
 
-  if (isObject(target)) {
+  if (isArrayLike(target)) {
+    for (let i = 0, len = target.length; i < len; i++) {
+      callbcak(target[i], i, target);
+    };
+  } else if (isObject(target)) {
     for (let key in target) {
       callbcak(target[key], key, target);
     };
   } else if (isPosiInteger(target)) {
     for (let i = 0; i < target; i++) {
       callbcak(i, target);
-    };
-  } else if (target.length) {
-    for (let i = 0, len = target.length; i < len; i++) {
-      callbcak(target[i], i, target);
     };
   };
 };
@@ -274,21 +304,18 @@ const forEach = (target, callbcak) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
  */
 const indexOf = (target, value, fromIndex = 0) => {
-  if (!isArray(target) && !isString(target)) throw new TypeError('target must be a Array or String');
+  if (!isArrayLike(target) && !isString(target)) throw new TypeError('target must be a Array or String');
 
   if (isString(target)) return target.indexOf(value, fromIndex);
+  if (isArray(target) && isFunction(Array.prototype.indexOf)) return target.indexOf(value);
 
-  if (isFunction(Array.prototype.indexOf)) {
-    return target.indexOf(value);
-  } else {
-    const index = -1;
+  const index = -1;
 
-    for (let i = fromIndex, len = target.length; i < len; i++) {
-      if (target[i] === value) return i;
-    };
+  for (let i = fromIndex, len = target.length; i < len; i++) {
+    if (target[i] === value) return i;
+  };
 
-    return index;
-  }
+  return index;
 };
 
 /**
@@ -319,7 +346,7 @@ const includes = (target, value, position = 0) => {
     } else {
       return indexOf(target, value, position) > -1;
     }
-  } else if (isObject(target)) {
+  } else if (isObject(target) || isArrayLike(target)) {
     let result = false;
 
     forEach(target, item => {
@@ -592,7 +619,7 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-const _ = {isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isObject, isPlainObject, isArray, isArguments, isArrayLike, isObjectLike, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+const _ = {isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 
-export {_, isUndefined, isNull, isNumber, isString, isBoolean, isFunction, isRegExp, isDate, isObject, isPlainObject, isArray, isArguments, isArrayLike, isObjectLike, isPositive, isNegative, isInteger, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isError, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+export {_, isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
 export default _;
