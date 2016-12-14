@@ -72,9 +72,11 @@ var isBoolean = function (value) {
  *
  * @return {Boolean} 真或假
  */
-var isNumber = function isNumber(value) {
+var isNumber = function (value) {
+  _newArrowCheck(this, _this);
+
   return typeof value === 'number';
-};
+}.bind(this);
 
 /*
  * @name 判断一个数值是一个有穷数
