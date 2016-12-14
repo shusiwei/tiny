@@ -85,10 +85,10 @@ var isNumber = function (value) {
  *
  * @return {Boolean} 真或假
  */
-Number.isFinite = Number.isFinite || function (value) {
+var isFiniteNumber = function (value) {
   _newArrowCheck(this, _this);
 
-  return isNumber(value) && isFinite(value);
+  return Number.isFinite ? Number.isFinite(value) : isNumber(value) && isFinite(value);
 }.bind(this);
 
 /*
@@ -101,11 +101,7 @@ Number.isFinite = Number.isFinite || function (value) {
 var isInteger = function (value) {
   _newArrowCheck(this, _this);
 
-  if (Number.isInteger) {
-    return Number.isInteger(value);
-  } else {
-    return Number.isFinite(value) && Math.floor(value) === value;
-  }
+  return Number.isInteger ? Number.isInteger(value) : isFiniteNumber(value) && Math.floor(value) === value;
 }.bind(this);
 
 /*
@@ -118,11 +114,7 @@ var isInteger = function (value) {
 var isSafeInteger = function (value) {
   _newArrowCheck(this, _this);
 
-  if (Number.isSafeInteger) {
-    return Number.isSafeInteger(value);
-  } else {
-    return isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
-  }
+  return Number.isSafeInteger ? Number.isSafeInteger(value) : isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
 }.bind(this);
 
 /*
@@ -135,7 +127,7 @@ var isSafeInteger = function (value) {
 var isPositive = function (value) {
   _newArrowCheck(this, _this);
 
-  return Number.isFinite(value) && value > 0;
+  return isFiniteNumber(value) && value > 0;
 }.bind(this);
 
 /*
@@ -148,7 +140,7 @@ var isPositive = function (value) {
 var isNegative = function (value) {
   _newArrowCheck(this, _this);
 
-  return Number.isFinite(value) && value < 0;
+  return isFiniteNumber(value) && value < 0;
 }.bind(this);
 
 /*
@@ -187,7 +179,7 @@ var isNegaInteger = function (value) {
 var isFloat = function (value) {
   _newArrowCheck(this, _this);
 
-  return Number.isFinite(value) && !isInteger(value);
+  return isFiniteNumber(value) && !isInteger(value);
 }.bind(this);
 
 /*
@@ -823,4 +815,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-export { isUndefined, isNull, isBoolean, isNumber, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
+export { isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };

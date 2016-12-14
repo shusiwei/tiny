@@ -59,7 +59,7 @@ const isNumber = (value) => typeof value === 'number';
  *
  * @return {Boolean} 真或假
  */
-Number.isFinite = Number.isFinite || ((value) => isNumber(value) && isFinite(value));
+const isFiniteNumber = (value) => Number.isFinite ? Number.isFinite(value) : isNumber(value) && isFinite(value);
 
 /*
  * @name 判断一个数值是否为整数，包括正整数和负整数
@@ -68,13 +68,7 @@ Number.isFinite = Number.isFinite || ((value) => isNumber(value) && isFinite(val
  *
  * @return {Boolean} 真或假
  */
-const isInteger = (value) => {
-  if (Number.isInteger) {
-    return Number.isInteger(value);
-  } else {
-    return Number.isFinite(value) && Math.floor(value) === value;
-  }
-};
+const isInteger = (value) => Number.isInteger ? Number.isInteger(value) : isFiniteNumber(value) && Math.floor(value) === value;
 
 /*
  * @name 判断一个数值是否为安全整数
@@ -83,13 +77,7 @@ const isInteger = (value) => {
  *
  * @return {Boolean} 真或假
  */
-const isSafeInteger = (value) => {
-  if (Number.isSafeInteger) {
-    return Number.isSafeInteger(value);
-  } else {
-    return isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
-  }
-};
+const isSafeInteger = (value) => Number.isSafeInteger ? Number.isSafeInteger(value) : isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
 
 /*
  * @name 判断一个数值是否为正数
@@ -98,7 +86,7 @@ const isSafeInteger = (value) => {
  *
  * @return {Boolean} 真或假
  */
-const isPositive = (value) => Number.isFinite(value) && value > 0;
+const isPositive = (value) => isFiniteNumber(value) && value > 0;
 
 /*
  * @name 判断一个数值是否为负数
@@ -107,7 +95,7 @@ const isPositive = (value) => Number.isFinite(value) && value > 0;
  *
  * @return {Boolean} 真或假
  */
-const isNegative = (value) => Number.isFinite(value) && value < 0;
+const isNegative = (value) => isFiniteNumber(value) && value < 0;
 
 /*
  * @name 判断一个数值是否为正整数
@@ -134,7 +122,7 @@ const isNegaInteger = (value) => isInteger(value) && isNegative(value);
  *
  * @return {Boolean} 真或假
  */
-const isFloat = (value) => Number.isFinite(value) && !isInteger(value);
+const isFloat = (value) => isFiniteNumber(value) && !isInteger(value);
 
 /*
  * @name 判断一个数值是否为正浮点数
@@ -613,4 +601,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isUndefined, isNull, isBoolean, isNumber, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+export {isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
