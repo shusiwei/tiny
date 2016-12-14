@@ -85,14 +85,10 @@ var isNumber = function (value) {
  *
  * @return {Boolean} 真或假
  */
-var isFinite = function (value) {
+Number.isFinite = Number.isFinite || function (value) {
   _newArrowCheck(this, _this);
 
-  if (Number.isFinite) {
-    return Number.isFinite(value);
-  } else {
-    return isNumber(value) && isFinite(value);
-  }
+  return isNumber(value) && isFinite(value);
 }.bind(this);
 
 /*
@@ -108,7 +104,7 @@ var isInteger = function (value) {
   if (Number.isInteger) {
     return Number.isInteger(value);
   } else {
-    return isFinite(value) && Math.floor(value) === value;
+    return Number.isFinite(value) && Math.floor(value) === value;
   }
 }.bind(this);
 
@@ -139,7 +135,7 @@ var isSafeInteger = function (value) {
 var isPositive = function (value) {
   _newArrowCheck(this, _this);
 
-  return isFinite(value) && value > 0;
+  return Number.isFinite(value) && value > 0;
 }.bind(this);
 
 /*
@@ -152,7 +148,7 @@ var isPositive = function (value) {
 var isNegative = function (value) {
   _newArrowCheck(this, _this);
 
-  return isFinite(value) && value < 0;
+  return Number.isFinite(value) && value < 0;
 }.bind(this);
 
 /*
@@ -191,7 +187,7 @@ var isNegaInteger = function (value) {
 var isFloat = function (value) {
   _newArrowCheck(this, _this);
 
-  return isFinite(value) && !isInteger(value);
+  return Number.isFinite(value) && !isInteger(value);
 }.bind(this);
 
 /*
@@ -827,4 +823,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-export { isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
+export { isUndefined, isNull, isBoolean, isNumber, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
