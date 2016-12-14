@@ -50,7 +50,9 @@ const isBoolean = (value) => typeof value === 'boolean';
  *
  * @return {Boolean} 真或假
  */
-const isNumber = (value) => typeof value === 'number';
+const isNumber = function(value) {
+  return typeof value === 'number';
+};
 
 /*
  * @name 判断一个数值是一个有穷数
