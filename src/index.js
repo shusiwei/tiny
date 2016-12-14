@@ -59,7 +59,7 @@ const isNumber = (value) => typeof value === 'number';
  *
  * @return {Boolean} 真或假
  */
-const isFinite = (value) => {
+const isFiniteNumber = (value) => {
   if (Number.isFinite) {
     return Number.isFinite(value);
   } else {
@@ -78,7 +78,7 @@ const isInteger = (value) => {
   if (Number.isInteger) {
     return Number.isInteger(value);
   } else {
-    return isFinite(value) && Math.floor(value) === value;
+    return isFiniteNumber(value) && Math.floor(value) === value;
   }
 };
 
@@ -104,7 +104,7 @@ const isSafeInteger = (value) => {
  *
  * @return {Boolean} 真或假
  */
-const isPositive = (value) => isFinite(value) && value > 0;
+const isPositive = (value) => isFiniteNumber(value) && value > 0;
 
 /*
  * @name 判断一个数值是否为负数
@@ -113,7 +113,7 @@ const isPositive = (value) => isFinite(value) && value > 0;
  *
  * @return {Boolean} 真或假
  */
-const isNegative = (value) => isFinite(value) && value < 0;
+const isNegative = (value) => isFiniteNumber(value) && value < 0;
 
 /*
  * @name 判断一个数值是否为正整数
@@ -140,7 +140,7 @@ const isNegaInteger = (value) => isInteger(value) && isNegative(value);
  *
  * @return {Boolean} 真或假
  */
-const isFloat = (value) => isFinite(value) && !isInteger(value);
+const isFloat = (value) => isFiniteNumber(value) && !isInteger(value);
 
 /*
  * @name 判断一个数值是否为正浮点数
@@ -619,4 +619,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+export {isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
