@@ -72,9 +72,11 @@ var isBoolean = function (value) {
  *
  * @return {Boolean} 真或假
  */
-var isNumber = function isNumber(value) {
+var isNumber = function (value) {
+  _newArrowCheck(this, _this);
+
   return typeof value === 'number';
-};
+}.bind(this);
 
 /*
  * @name 判断一个数值是一个有穷数
@@ -825,7 +827,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-var _ = { isUndefined: isUndefined, isNull: isNull, isBoolean: isBoolean, isNumber: isNumber, isFinite: isFinite, isSafeInteger: isSafeInteger, isPositive: isPositive, isNegative: isNegative, isPosiInteger: isPosiInteger, isNegaInteger: isNegaInteger, isFloat: isFloat, isPosiFloat: isPosiFloat, isNegaFloat: isNegaFloat, isString: isString, isFunction: isFunction, isObject: isObject, isPlainObject: isPlainObject, isArray: isArray, isLength: isLength, isArrayLike: isArrayLike, isObjectLike: isObjectLike, isRegExp: isRegExp, isDate: isDate, isError: isError, isArguments: isArguments, forEach: forEach, indexOf: indexOf, includes: includes, assign: assign, trim: trim, trimLeft: trimLeft, trimRight: trimRight, padStart: padStart, padEnd: padEnd, separate: separate, empty: empty, append: append, replace: replace, now: now, random: random, randomStamp: randomStamp };
-
-export { _, isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
-export default _;
+export { isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };

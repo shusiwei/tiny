@@ -50,9 +50,7 @@ const isBoolean = (value) => typeof value === 'boolean';
  *
  * @return {Boolean} 真或假
  */
-const isNumber = function(value) {
-  return typeof value === 'number';
-};
+const isNumber = (value) => typeof value === 'number';
 
 /*
  * @name 判断一个数值是一个有穷数
@@ -621,7 +619,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-const _ = {isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
-
-export {_, isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
-export default _;
+export {isUndefined, isNull, isBoolean, isNumber, isFinite, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
