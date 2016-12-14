@@ -815,4 +815,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-export { isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
+export { isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp };
