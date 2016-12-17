@@ -257,7 +257,7 @@ const isArguments = (value) => getProtoType(value) === 'arguments';
  * @params {Function} target 遍历回调
  */
 const forEach = (target, callbcak) => {
-  if (!isObjectLike(target) && !isString(target) && !isPosiInteger(target)) throw new TypeError('target must be a Object/Array/String or Positive integer');
+  if (!isObjectLike(target) && !isString(target) && !isPosiInteger(target)) throw new TypeError('forEach: target must be a Object/Array/String or Positive integer');
 
   if (isArrayLike(target)) {
     for (let i = 0, len = target.length; i < len; i++) {
@@ -286,7 +286,7 @@ const forEach = (target, callbcak) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
  */
 const indexOf = (target, value, fromIndex = 0) => {
-  if (!isArrayLike(target) && !isString(target)) throw new TypeError('target must be a Array or String');
+  if (!isArrayLike(target) && !isString(target)) throw new TypeError('indexOf: target must be a Array or String');
 
   if (isString(target)) return target.indexOf(value, fromIndex);
   if (isArray(target) && isFunction(Array.prototype.indexOf)) return target.indexOf(value);
@@ -313,8 +313,8 @@ const indexOf = (target, value, fromIndex = 0) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
  */
 const includes = (target, value, position = 0) => {
-  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('target must b a Object/Array or String');
-  if (position !== 0 && !isPosiInteger(position)) throw new TypeError('position must b a Positive integer');
+  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('includes: target must b a Object/Array or String');
+  if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
   if (isArray(target)) {
     if (Array.prototype.includes) {
@@ -350,7 +350,7 @@ const includes = (target, value, position = 0) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
  */
 const assign = (target, ...sources) => {
-  if (!isObject(target)) throw new TypeError('target must be a Object');
+  if (!isObject(target)) throw new TypeError('assign: target must be a Object');
 
   if (isFunction(Object.assign)) {
     return Object.assign(target, ...sources);
@@ -372,111 +372,133 @@ const assign = (target, ...sources) => {
 /**
  * @name 删除一个字符串两端的连续空白字符(space、tab、no-break space、LF、CR等)
  *
- * @params {String} string 操作的字符串
+ * @params {String} target 操作的字符串
  *
  * @return {String} 删除空白字符后的新字符串
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimRegex = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-const trim = (string) => {
-  if (!isString(string)) throw new TypeError('string must b a String');
+const trim = (target) => {
+  if (!isString(target)) throw new TypeError('trim: target must b a String');
 
-  if (isFunction(String.prototype.trim)) {
-    return string.trim();
-  } else {
-    return string.replace(trimRegex, '');
-  }
+  return isFunction(String.prototype.trim) ? target.trim() : target.replace(trimRegex, '');
 };
 
 /**
  * @name 删除一个字符串左端的连续空白字符(space、tab、no-break space、LF、CR等)
  *
- * @params {String} string 操作的字符串
+ * @params {String} target 操作的字符串
  *
  * @return {String} 删除空白字符后的新字符串
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimLeftRegex = /^[\s\uFEFF\xA0]+/;
-const trimLeft = (string) => {
-  if (!isString(string)) throw new TypeError('string must b a String');
+const trimLeft = (target) => {
+  if (!isString(target)) throw new TypeError('trimLeft: target must b a String');
 
-  if (isFunction(String.prototype.trimLeft)) {
-    return string.trimLeft();
-  } else {
-    return string.replace(trimLeftRegex, '');
-  }
+  return isFunction(String.prototype.trimLeft) ? target.trimLeft() : target.replace(trimLeftRegex, '');
 };
 
 /**
  * @name 删除一个字符串右端的连续空白字符(space、tab、no-break space、LF、CR等)
  *
- * @params {String} string 操作的字符串
+ * @params {String} target 操作的字符串
  *
  * @return {String} 删除空白字符后的新字符串
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimRightRegex = /[\s\uFEFF\xA0]+$/;
-const trimRight = (string) => {
-  if (!isString(string)) throw new TypeError('string must b a String');
+const trimRight = (target) => {
+  if (!isString(target)) throw new TypeError('trimRight: target must b a String');
 
-  if (isFunction(String.prototype.trimRight)) {
-    return string.trimRight();
-  } else {
-    return string.replace(trimRightRegex, '');
-  }
+  return isFunction(String.prototype.trimRight) ? target.trimRight() : target.replace(trimRightRegex, '');
 };
 
 /**
  * @name 使用占位字符在一个字符串前面不断直译直到达到一个固定长度
  *
- * @params {String} string 操作的字符串
+ * @params {String} target 操作的字符串
  * @params {Number} length 目录长度
- * @params {String} string[' '] 占位字符
+ * @params {String} chars[' '] 占位字符
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
-const padStart = (string, length, chars = ' ') => {
-  if (!isString(string)) throw new TypeError('string must b a String');
-  if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
-  if (!isString(chars)) throw new TypeError('chars must b a String');
+const padStart = (target, length, chars = ' ') => {
+  if (!isString(target)) throw new TypeError('padStart: target must b a String');
+  if (!isPosiInteger(length)) throw new TypeError('padStart: length must b a Positive integer');
+  if (!isString(chars)) throw new TypeError('padStart: chars must b a String');
 
   if (isFunction(String.prototype.padStart)) {
-    return string.padStart(length, chars);
+    return target.padStart(length, chars);
   } else {
-    while (string.length < length) {
-      string = chars + string;
+    while (target.length < length) {
+      target = chars + target;
     };
 
-    return string.slice(0, length);
+    return target.slice(0, length);
   }
 };
 
 /**
  * @name 使用占位字符在一个字符串后面不断直译直到达到一个固定长度
  *
- * @params {String} string 操作的字符串
+ * @params {String} target 操作的字符串
  * @params {Number} length [0] 目录长度
- * @params {String} string[' '] 占位字符
+ * @params {String} chars[' '] 占位字符
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
-const padEnd = (string, length = 0, chars = ' ') => {
-  if (!isString(string)) throw new TypeError('string must b a String');
-  if (!isPosiInteger(length)) throw new TypeError('string must b a Positive integer');
-  if (!isString(chars)) throw new TypeError('chars must b a String');
+const padEnd = (target, length = 0, chars = ' ') => {
+  if (!isString(target)) throw new TypeError('padEnd: target must b a String');
+  if (!isPosiInteger(length)) throw new TypeError('padEnd: length must b a Positive integer');
+  if (!isString(chars)) throw new TypeError('padEnd: chars must b a String');
 
   if (isFunction(String.prototype.padEnd)) {
-    return string.padEnd(length, chars);
+    return target.padEnd(length, chars);
   } else {
-    while (string.length < length) {
-      string += chars;
+    while (target.length < length) {
+      target += chars;
     };
 
-    return string.slice(0, length);
+    return target.slice(0, length);
   }
+};
+
+/**
+ * @name 判断字符串的起始位置是否匹配其他字符串中的字符
+ *
+ * @params {String} target 操作的字符串
+ * @params {String} value 结尾匹配的字符串
+ *
+ * @return {Boolean} 真或假
+ *
+ * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+ */
+const startsWith = (target, value) => {
+  if (!isString(target)) throw new TypeError('startsWith: target must b a String');
+  if (!isString(value)) throw new TypeError('startsWith: value must b a String');
+
+  return isFunction(String.prototype.startsWith) ? target.startsWith(value) : target.splice(0, value.length) === value;
+};
+
+/**
+ * @name 判断一个字符串的结尾是否包含其他字符串中的字符
+ *
+ * @params {String} target 操作的字符串
+ * @params {String} value 结尾匹配的字符串
+ *
+ * @return {Boolean} 真或假
+ *
+ * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
+ */
+const endsWith = (target, value) => {
+  if (!isString(target)) throw new TypeError('endsWith: target must b a String');
+  if (!isString(value)) throw new TypeError('endsWith: value must b a String');
+
+  return isFunction(String.prototype.endsWith) ? target.endsWith(value) : target.splice(target.length - value.length) === value;
 };
 
 /**
@@ -489,9 +511,9 @@ const padEnd = (string, length = 0, chars = ' ') => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const separate = (source, rule = 4, separator = ' ') => {
-  if (!isString(source)) throw new TypeError('source must b a String');
-  if (!isString(rule) && !isPosiInteger(rule)) throw new TypeError('rule must b a String or Positive integer');
-  if (!isString(separator)) throw new TypeError('separator must b a String or space');
+  if (!isString(source)) throw new TypeError('separate: source must b a String');
+  if (!isString(rule) && !isPosiInteger(rule)) throw new TypeError('separate: rule must b a String or Positive integer');
+  if (!isString(separator)) throw new TypeError('separate: separator must b a String or space');
 
   let result = '';
 
@@ -527,7 +549,7 @@ const separate = (source, rule = 4, separator = ' ') => {
  * @return {Array} 清空后的数组
  */
 const empty = (target) => {
-  if (!isArray(target)) throw new TypeError('target must be a Array');
+  if (!isArray(target)) throw new TypeError('empty: target must be a Array');
 
   // 清空所有的值
   target.splice(0, target.length);
@@ -545,10 +567,10 @@ const empty = (target) => {
  * @return {Array} 被拉入数据的target数组
  */
 const append = (target, ...sources) => {
-  if (!isArray(target)) throw new TypeError('target must be a Array');
+  if (!isArray(target)) throw new TypeError('append: target must be a Array');
 
   for (let source of sources) {
-    if (!isArray(source)) throw new TypeError('source must be a Array');
+    if (!isArray(source)) throw new TypeError('append: source must be a Array');
 
     forEach(source, item => {
       target.push(item);
@@ -601,4 +623,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, separate, empty, append, replace, now, random, randomStamp};
+export {isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp};
