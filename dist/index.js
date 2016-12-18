@@ -314,20 +314,7 @@ var isArray = function (value) {
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为类数组对象，包括Array/NodeList/Arguments等
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isArrayLikeObject = function (value) {
-  _newArrowCheck(this, _this);
-
-  return isObjectLike(value) && !isTypeOf(value, 'object') && isLength(value.length);
-}.bind(this);
-
-/*
- * @name 此方法类似isArrayLikeObject，除了它同时包含字符串
+ * @name 判断一个对象的数据类型是否为类数组对象，包括Array/String/NodeList/Arguments等
  *
  * @params {Anything} value 任何类型的数据
  *
@@ -336,7 +323,7 @@ var isArrayLikeObject = function (value) {
 var isArrayLike = function (value) {
   _newArrowCheck(this, _this);
 
-  return isString(value) || isArrayLikeObject(value);
+  return !isNull(value) && !isFunction(value) && isLength(value.length);
 }.bind(this);
 
 /*
@@ -394,25 +381,21 @@ var isArguments = function (value) {
 /*
  * @name 对一个对象/字符串/正整数进行遍历
  *
- * @params {ArrayLike, Object, Number} target 可进行遍历的对象或个数
+ * @params {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
  * @params {Function} target 遍历回调
  */
 var forEach = function (target, callbcak) {
   _newArrowCheck(this, _this);
 
-  if (!isArrayLike(target) && !isObject(target) && !isPosiInteger(target)) throw new TypeError('forEach: target must be a ArrayLike/Object or Positive integer');
+  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('forEach: target must be a ArrayLike or ObjectLike');
 
   if (isArrayLike(target)) {
     for (var i = 0, len = target.length; i < len; i++) {
       callbcak(target[i], i, target);
     };
-  } else if (isObject(target)) {
+  } else if (isObjectLike(target)) {
     for (var key in target) {
       callbcak(target[key], key, target);
-    };
-  } else if (isPosiInteger(target)) {
-    for (var _i = 0; _i < target; _i++) {
-      callbcak(_i, target);
     };
   };
 }.bind(this);
@@ -464,38 +447,28 @@ var includes = function (target, value) {
 
   _newArrowCheck(this, _this);
 
-  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('includes: target must b a Array/String or Object');
+  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('includes: target must b a Array/String/ObjectLike');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
   if (isArray(target)) return isFunction(Array.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
   if (isString(target)) return isFunction(String.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
 
-  if (isObject(target)) {
-    var _ret = function () {
-      var result = false;
+  var result = false;
 
-      forEach(target, function (item) {
-        _newArrowCheck(this, _this);
+  forEach(target, function (item) {
+    _newArrowCheck(this, _this);
 
-        if (item === value) result === true;
-      }.bind(_this));
+    if (item === value) result === true;
+  }.bind(this));
 
-      return {
-        v: result
-      };
-    }();
-
-    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-  };
-
-  return false;
+  return result;
 }.bind(this);
 
 /**
  * @name 把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象
  *
- * @params {Object} target 目标对象
- * @params {Object} sources 任意多个源对象
+ * @params {ObjectLike} target 目标对象
+ * @params {ObjectLike} sources 任意多个源对象
  *
  * @return {Object} 目标对象
  *
@@ -508,26 +481,26 @@ var assign = function (target) {
 
   _newArrowCheck(this, _this);
 
-  if (!isObject(target)) throw new TypeError('assign: target must be a Object');
+  if (!isObjectLike(target)) throw new TypeError('assign: target must be a ObjectLike');
 
   if (isFunction(Object.assign)) {
     return Object.assign.apply(Object, [target].concat(sources));
   } else {
-    for (var _iterator = sources, _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+    for (var _iterator = sources, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
       var _ref;
 
       if (_isArray) {
-        if (_i2 >= _iterator.length) break;
-        _ref = _iterator[_i2++];
+        if (_i >= _iterator.length) break;
+        _ref = _iterator[_i++];
       } else {
-        _i2 = _iterator.next();
-        if (_i2.done) break;
-        _ref = _i2.value;
+        _i = _iterator.next();
+        if (_i.done) break;
+        _ref = _i.value;
       }
 
       var source = _ref;
 
-      if (isObject(source)) {
+      if (isObjectLike(source)) {
         for (var key in source) {
           if (Object.prototype.hasOwnProperty.call(source, key)) {
             target[key] = source[key];
@@ -721,13 +694,13 @@ var separate = function (source) {
       if (i + 1 === len) break;
     };
   } else {
-    for (var _i3 = 0, count = 0, _len2 = source.length; _i3 < _len2; _i3++) {
-      if (rule[_i3 + count] === ';') {
+    for (var _i2 = 0, count = 0, _len2 = source.length; _i2 < _len2; _i2++) {
+      if (rule[_i2 + count] === ';') {
         count++;
         result += separator;
       };
 
-      result += source[_i3];
+      result += source[_i2];
 
       if (result.length === rule.length) return result;
     };
@@ -772,16 +745,16 @@ var append = function (target) {
 
   if (!isArray(target)) throw new TypeError('append: target must be a Array');
 
-  for (var _iterator2 = sources, _isArray2 = Array.isArray(_iterator2), _i4 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+  for (var _iterator2 = sources, _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
     var _ref2;
 
     if (_isArray2) {
-      if (_i4 >= _iterator2.length) break;
-      _ref2 = _iterator2[_i4++];
+      if (_i3 >= _iterator2.length) break;
+      _ref2 = _iterator2[_i3++];
     } else {
-      _i4 = _iterator2.next();
-      if (_i4.done) break;
-      _ref2 = _i4.value;
+      _i3 = _iterator2.next();
+      if (_i3.done) break;
+      _ref2 = _i3.value;
     }
 
     var source = _ref2;
@@ -861,4 +834,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-export { isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLikeObject, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp };
+export { isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp };

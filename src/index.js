@@ -216,22 +216,13 @@ const isPlainObject = (value) => isObjectLike(value) && value.constructor === Ob
 const isArray = (value) => isTypeOf(value, 'array');
 
 /*
- * @name 判断一个对象的数据类型是否为类数组对象，包括Array/NodeList/Arguments等
+ * @name 判断一个对象的数据类型是否为类数组对象，包括Array/String/NodeList/Arguments等
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isArrayLikeObject = (value) => isObjectLike(value) && !isTypeOf(value, 'object') && isLength(value.length);
-
-/*
- * @name 此方法类似isArrayLikeObject，除了它同时包含字符串
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isArrayLike = (value) => isString(value) || isArrayLikeObject(value);
+const isArrayLike = (value) => !isNull(value) && !isFunction(value) && isLength(value.length);
 
 /*
  * @name 判断一个对象的数据类型是否为正则表达式
@@ -272,23 +263,19 @@ const isArguments = (value) => isTypeOf(value, 'arguments');
 /*
  * @name 对一个对象/字符串/正整数进行遍历
  *
- * @params {ArrayLike, Object, Number} target 可进行遍历的对象或个数
+ * @params {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
  * @params {Function} target 遍历回调
  */
 const forEach = (target, callbcak) => {
-  if (!isArrayLike(target) && !isObject(target) && !isPosiInteger(target)) throw new TypeError('forEach: target must be a ArrayLike/Object or Positive integer');
+  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('forEach: target must be a ArrayLike or ObjectLike');
 
   if (isArrayLike(target)) {
     for (let i = 0, len = target.length; i < len; i++) {
       callbcak(target[i], i, target);
     };
-  } else if (isObject(target)) {
+  } else if (isObjectLike(target)) {
     for (let key in target) {
       callbcak(target[key], key, target);
-    };
-  } else if (isPosiInteger(target)) {
-    for (let i = 0; i < target; i++) {
-      callbcak(i, target);
     };
   };
 };
@@ -332,43 +319,39 @@ const indexOf = (target, value, fromIndex = 0) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
  */
 const includes = (target, value, position = 0) => {
-  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('includes: target must b a Array/String or Object');
+  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('includes: target must b a Array/String/ObjectLike');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
   if (isArray(target)) return isFunction(Array.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
   if (isString(target)) return isFunction(String.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
 
-  if (isObject(target)) {
-    let result = false;
+  let result = false;
 
-    forEach(target, item => {
-      if (item === value) result === true;
-    });
+  forEach(target, item => {
+    if (item === value) result === true;
+  });
 
-    return result;
-  };
-
-  return false;
+  return result;
 };
 
 /**
  * @name 把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象
  *
- * @params {Object} target 目标对象
- * @params {Object} sources 任意多个源对象
+ * @params {ObjectLike} target 目标对象
+ * @params {ObjectLike} sources 任意多个源对象
  *
  * @return {Object} 目标对象
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
  */
 const assign = (target, ...sources) => {
-  if (!isObject(target)) throw new TypeError('assign: target must be a Object');
+  if (!isObjectLike(target)) throw new TypeError('assign: target must be a ObjectLike');
 
   if (isFunction(Object.assign)) {
     return Object.assign(target, ...sources);
   } else {
     for (let source of sources) {
-      if (isObject(source)) {
+      if (isObjectLike(source)) {
         for (let key in source) {
           if (Object.prototype.hasOwnProperty.call(source, key)) {
             target[key] = source[key];
@@ -635,4 +618,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLikeObject, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp};
+export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp};
