@@ -4,8 +4,8 @@
   "description": "A modern JavaScript utility library",
   "main": "dist/index.js",
   "scripts": {
-    "eslint": "./node_modules/.bin/eslint src/index.js",
-    "build": "./node_modules/.bin/babel src -d dist"
+    "eslint": "eslint src/index.js",
+    "build": "npm run eslint && babel src -d dist"
   },
   "repository": {
     "type": "git",

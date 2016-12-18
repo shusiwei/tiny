@@ -1,12 +1,3 @@
-/*
- * @name 获取一个对象的原型类型
- *
- * @params {Anything} object 任何类型的数据
- *
- * @return {String} 对象的原型类型
- */
-const getProtoType = (object) => Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
-
 // 最大安全数值
 const MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -15,6 +6,25 @@ const MAX_INTEGER = 1.79E+308;
 
 // 最小数
 const MIN_INTEGER = 5e-324;
+
+/*
+ * @name 获取一个对象的原型类型
+ *
+ * @params {Anything} object 任何类型的数据
+ *
+ * @return {String} 对象的原型类型
+ */
+const prototype = (object) => Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
+
+/*
+ * @name 判断一个对象是否为某个类型
+ *
+ * @params {Anything} value 任何类型的数据
+ * @params {String} type 类型名称
+ *
+ * @return {Boolean} 真或假
+ */
+const isTypeOf = (object, type) => prototype(object) === type;
 
 /*
  * @name 判断一个对象是否为undefined
@@ -143,6 +153,15 @@ const isPosiFloat = (value) => isFloat(value) && isPositive(value);
 const isNegaFloat = (value) => isFloat(value) && isNegative(value);
 
 /*
+ * @name 判断一个值是否为一个长度值
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isLength = (value) => isSafeInteger(value) && value > -1;
+
+/*
  * @name 判断一个对象的数据类型是否为字符串
  *
  * @params {Anything} value 任何类型的数据
@@ -161,13 +180,22 @@ const isString = (value) => typeof value === 'string';
 const isFunction = (value) => typeof value === 'function';
 
 /*
+ * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+const isObjectLike = (value) => !isNull(value) && typeof value === 'object';
+
+/*
  * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isObject = (value) => getProtoType(value) === 'object';
+const isObject = (value) => isObjectLike(value) || isFunction(value);
 
 /*
  * @name 判断一个对象的数据类型是否为对象，包括原生对象
@@ -176,7 +204,7 @@ const isObject = (value) => getProtoType(value) === 'object';
  *
  * @return {Boolean} 真或假
  */
-const isPlainObject = (value) => isObject(value) && value.constructor === Object;
+const isPlainObject = (value) => isObjectLike(value) && value.constructor === Object;
 
 /*
  * @name 判断一个对象的数据类型是否为数组
@@ -185,34 +213,25 @@ const isPlainObject = (value) => isObject(value) && value.constructor === Object
  *
  * @return {Boolean} 真或假
  */
-const isArray = (value) => getProtoType(value) === 'array';
+const isArray = (value) => isTypeOf(value, 'array');
 
 /*
- * @name 判断一个值是否为一个长度值
+ * @name 判断一个对象的数据类型是否为类数组对象，包括Array/NodeList/Arguments等
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isLength = (value) => isSafeInteger(value) && value > -1;
+const isArrayLikeObject = (value) => isObjectLike(value) && !isTypeOf(value, 'object') && isLength(value.length);
 
 /*
- * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
+ * @name 此方法类似isArrayLikeObject，除了它同时包含字符串
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isArrayLike = (object) => !isUndefined(object) && !isNull(object) && !isObject(object) && !isFunction(object) && isLength(object.length);
-
-/*
- * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-const isObjectLike = (value) => isObject(value) || isArrayLike(value);
+const isArrayLike = (value) => isString(value) || isArrayLikeObject(value);
 
 /*
  * @name 判断一个对象的数据类型是否为正则表达式
@@ -221,7 +240,7 @@ const isObjectLike = (value) => isObject(value) || isArrayLike(value);
  *
  * @return {Boolean} 真或假
  */
-const isRegExp = (value) => getProtoType(value) === 'regexp';
+const isRegExp = (value) => isTypeOf(value, 'regexp');
 
 /*
  * @name 判断一个对象的数据类型是否为日期
@@ -230,7 +249,7 @@ const isRegExp = (value) => getProtoType(value) === 'regexp';
  *
  * @return {Boolean} 真或假
  */
-const isDate = (value) => getProtoType(value) === 'date';
+const isDate = (value) => isTypeOf(value, 'date');
 
 /*
  * @name 判断一个对象的数据类型是否为Error类型
@@ -239,7 +258,7 @@ const isDate = (value) => getProtoType(value) === 'date';
  *
  * @return {Boolean} 真或假
  */
-const isError = (value) => getProtoType(value) === 'error';
+const isError = (value) => isTypeOf(value, 'error');
 
 /*
  * @name 判断一个对象的数据类型是否为Arguments
@@ -248,16 +267,16 @@ const isError = (value) => getProtoType(value) === 'error';
  *
  * @return {Boolean} 真或假
  */
-const isArguments = (value) => getProtoType(value) === 'arguments';
+const isArguments = (value) => isTypeOf(value, 'arguments');
 
 /*
  * @name 对一个对象/字符串/正整数进行遍历
  *
- * @params {Array, Object, String, Number} target 可进行遍历的对象或个数
+ * @params {ArrayLike, Object, Number} target 可进行遍历的对象或个数
  * @params {Function} target 遍历回调
  */
 const forEach = (target, callbcak) => {
-  if (!isObjectLike(target) && !isString(target) && !isPosiInteger(target)) throw new TypeError('forEach: target must be a Object/Array/String or Positive integer');
+  if (!isArrayLike(target) && !isObject(target) && !isPosiInteger(target)) throw new TypeError('forEach: target must be a ArrayLike/Object or Positive integer');
 
   if (isArrayLike(target)) {
     for (let i = 0, len = target.length; i < len; i++) {
@@ -277,7 +296,7 @@ const forEach = (target, callbcak) => {
 /**
  * @name 一个值在一个数组或字符串中的索引
  *
- * @params {Array, String} target 检测的对象
+ * @params {ArrayLike} target 检测的对象
  * @params {Anything} value 任意值
  *
  * @return {Number} 如果存在则返回一个索引，否则则返回-1
@@ -286,10 +305,10 @@ const forEach = (target, callbcak) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
  */
 const indexOf = (target, value, fromIndex = 0) => {
-  if (!isArrayLike(target) && !isString(target)) throw new TypeError('indexOf: target must be a Array or String');
+  if (!isArrayLike(target)) throw new TypeError('indexOf: target must be a ArrayLike');
 
   if (isString(target)) return target.indexOf(value, fromIndex);
-  if (isArray(target) && isFunction(Array.prototype.indexOf)) return target.indexOf(value);
+  if (isArray(target) && isFunction(Array.prototype.indexOf)) return target.indexOf(value, fromIndex);
 
   const index = -1;
 
@@ -313,22 +332,13 @@ const indexOf = (target, value, fromIndex = 0) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
  */
 const includes = (target, value, position = 0) => {
-  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('includes: target must b a Object/Array or String');
+  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('includes: target must b a Array/String or Object');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
-  if (isArray(target)) {
-    if (Array.prototype.includes) {
-      return target.includes(value);
-    } else {
-      return indexOf(target, value, position) > -1;
-    }
-  } else if (isString(target)) {
-    if (String.prototype.includes) {
-      return target.includes(value);
-    } else {
-      return indexOf(target, value, position) > -1;
-    }
-  } else if (isObject(target) || isArrayLike(target)) {
+  if (isArray(target)) return isFunction(Array.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
+  if (isString(target)) return isFunction(String.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
+
+  if (isObject(target)) {
     let result = false;
 
     forEach(target, item => {
@@ -337,6 +347,8 @@ const includes = (target, value, position = 0) => {
 
     return result;
   };
+
+  return false;
 };
 
 /**
@@ -623,4 +635,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp};
+export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLikeObject, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp};

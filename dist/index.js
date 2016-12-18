@@ -4,19 +4,6 @@ var _this = this;
 
 function _newArrowCheck(innerThis, boundThis) { if (innerThis !== boundThis) { throw new TypeError("Cannot instantiate an arrow function"); } }
 
-/*
- * @name 获取一个对象的原型类型
- *
- * @params {Anything} object 任何类型的数据
- *
- * @return {String} 对象的原型类型
- */
-var getProtoType = function (object) {
-  _newArrowCheck(this, _this);
-
-  return Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
-}.bind(this);
-
 // 最大安全数值
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -25,6 +12,33 @@ var MAX_INTEGER = 1.79E+308;
 
 // 最小数
 var MIN_INTEGER = 5e-324;
+
+/*
+ * @name 获取一个对象的原型类型
+ *
+ * @params {Anything} object 任何类型的数据
+ *
+ * @return {String} 对象的原型类型
+ */
+var prototype = function (object) {
+  _newArrowCheck(this, _this);
+
+  return Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
+}.bind(this);
+
+/*
+ * @name 判断一个对象是否为某个类型
+ *
+ * @params {Anything} value 任何类型的数据
+ * @params {String} type 类型名称
+ *
+ * @return {Boolean} 真或假
+ */
+var isTypeOf = function (object, type) {
+  _newArrowCheck(this, _this);
+
+  return prototype(object) === type;
+}.bind(this);
 
 /*
  * @name 判断一个对象是否为undefined
@@ -209,6 +223,19 @@ var isNegaFloat = function (value) {
 }.bind(this);
 
 /*
+ * @name 判断一个值是否为一个长度值
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isLength = function (value) {
+  _newArrowCheck(this, _this);
+
+  return isSafeInteger(value) && value > -1;
+}.bind(this);
+
+/*
  * @name 判断一个对象的数据类型是否为字符串
  *
  * @params {Anything} value 任何类型的数据
@@ -235,6 +262,19 @@ var isFunction = function (value) {
 }.bind(this);
 
 /*
+ * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
+ *
+ * @params {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+var isObjectLike = function (value) {
+  _newArrowCheck(this, _this);
+
+  return !isNull(value) && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+}.bind(this);
+
+/*
  * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
  *
  * @params {Anything} value 任何类型的数据
@@ -244,7 +284,7 @@ var isFunction = function (value) {
 var isObject = function (value) {
   _newArrowCheck(this, _this);
 
-  return getProtoType(value) === 'object';
+  return isObjectLike(value) || isFunction(value);
 }.bind(this);
 
 /*
@@ -257,7 +297,7 @@ var isObject = function (value) {
 var isPlainObject = function (value) {
   _newArrowCheck(this, _this);
 
-  return isObject(value) && value.constructor === Object;
+  return isObjectLike(value) && value.constructor === Object;
 }.bind(this);
 
 /*
@@ -270,46 +310,33 @@ var isPlainObject = function (value) {
 var isArray = function (value) {
   _newArrowCheck(this, _this);
 
-  return getProtoType(value) === 'array';
+  return isTypeOf(value, 'array');
 }.bind(this);
 
 /*
- * @name 判断一个值是否为一个长度值
+ * @name 判断一个对象的数据类型是否为类数组对象，包括Array/NodeList/Arguments等
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-var isLength = function (value) {
+var isArrayLikeObject = function (value) {
   _newArrowCheck(this, _this);
 
-  return isSafeInteger(value) && value > -1;
+  return isObjectLike(value) && !isTypeOf(value, 'object') && isLength(value.length);
 }.bind(this);
 
 /*
- * @name 判断一个对象的数据类型是否为类数组，包括Array/String/NodeList/Arguments等
+ * @name 此方法类似isArrayLikeObject，除了它同时包含字符串
  *
  * @params {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-var isArrayLike = function (object) {
+var isArrayLike = function (value) {
   _newArrowCheck(this, _this);
 
-  return !isUndefined(object) && !isNull(object) && !isObject(object) && !isFunction(object) && isLength(object.length);
-}.bind(this);
-
-/*
- * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
- *
- * @params {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-var isObjectLike = function (value) {
-  _newArrowCheck(this, _this);
-
-  return isObject(value) || isArrayLike(value);
+  return isString(value) || isArrayLikeObject(value);
 }.bind(this);
 
 /*
@@ -322,7 +349,7 @@ var isObjectLike = function (value) {
 var isRegExp = function (value) {
   _newArrowCheck(this, _this);
 
-  return getProtoType(value) === 'regexp';
+  return isTypeOf(value, 'regexp');
 }.bind(this);
 
 /*
@@ -335,7 +362,7 @@ var isRegExp = function (value) {
 var isDate = function (value) {
   _newArrowCheck(this, _this);
 
-  return getProtoType(value) === 'date';
+  return isTypeOf(value, 'date');
 }.bind(this);
 
 /*
@@ -348,7 +375,7 @@ var isDate = function (value) {
 var isError = function (value) {
   _newArrowCheck(this, _this);
 
-  return getProtoType(value) === 'error';
+  return isTypeOf(value, 'error');
 }.bind(this);
 
 /*
@@ -361,19 +388,19 @@ var isError = function (value) {
 var isArguments = function (value) {
   _newArrowCheck(this, _this);
 
-  return getProtoType(value) === 'arguments';
+  return isTypeOf(value, 'arguments');
 }.bind(this);
 
 /*
  * @name 对一个对象/字符串/正整数进行遍历
  *
- * @params {Array, Object, String, Number} target 可进行遍历的对象或个数
+ * @params {ArrayLike, Object, Number} target 可进行遍历的对象或个数
  * @params {Function} target 遍历回调
  */
 var forEach = function (target, callbcak) {
   _newArrowCheck(this, _this);
 
-  if (!isObjectLike(target) && !isString(target) && !isPosiInteger(target)) throw new TypeError('forEach: target must be a Object/Array/String or Positive integer');
+  if (!isArrayLike(target) && !isObject(target) && !isPosiInteger(target)) throw new TypeError('forEach: target must be a ArrayLike/Object or Positive integer');
 
   if (isArrayLike(target)) {
     for (var i = 0, len = target.length; i < len; i++) {
@@ -393,7 +420,7 @@ var forEach = function (target, callbcak) {
 /**
  * @name 一个值在一个数组或字符串中的索引
  *
- * @params {Array, String} target 检测的对象
+ * @params {ArrayLike} target 检测的对象
  * @params {Anything} value 任意值
  *
  * @return {Number} 如果存在则返回一个索引，否则则返回-1
@@ -406,10 +433,10 @@ var indexOf = function (target, value) {
 
   _newArrowCheck(this, _this);
 
-  if (!isArrayLike(target) && !isString(target)) throw new TypeError('indexOf: target must be a Array or String');
+  if (!isArrayLike(target)) throw new TypeError('indexOf: target must be a ArrayLike');
 
   if (isString(target)) return target.indexOf(value, fromIndex);
-  if (isArray(target) && isFunction(Array.prototype.indexOf)) return target.indexOf(value);
+  if (isArray(target) && isFunction(Array.prototype.indexOf)) return target.indexOf(value, fromIndex);
 
   var index = -1;
 
@@ -437,22 +464,13 @@ var includes = function (target, value) {
 
   _newArrowCheck(this, _this);
 
-  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('includes: target must b a Object/Array or String');
+  if (!isArray(target) && !isString(target) && !isObject(target)) throw new TypeError('includes: target must b a Array/String or Object');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
-  if (isArray(target)) {
-    if (Array.prototype.includes) {
-      return target.includes(value);
-    } else {
-      return indexOf(target, value, position) > -1;
-    }
-  } else if (isString(target)) {
-    if (String.prototype.includes) {
-      return target.includes(value);
-    } else {
-      return indexOf(target, value, position) > -1;
-    }
-  } else if (isObject(target) || isArrayLike(target)) {
+  if (isArray(target)) return isFunction(Array.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
+  if (isString(target)) return isFunction(String.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
+
+  if (isObject(target)) {
     var _ret = function () {
       var result = false;
 
@@ -469,6 +487,8 @@ var includes = function (target, value) {
 
     if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
   };
+
+  return false;
 }.bind(this);
 
 /**
@@ -841,4 +861,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-export { isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isString, isFunction, isObject, isPlainObject, isArray, isLength, isArrayLike, isObjectLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp };
+export { isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLikeObject, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp };
