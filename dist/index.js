@@ -387,7 +387,7 @@ var isArguments = function (value) {
 var forEach = function (target, callbcak) {
   _newArrowCheck(this, _this);
 
-  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('forEach: target must be a ArrayLike or ObjectLike');
+  if (!isArrayLike(target) && !isObjectLike(target)) throw new TypeError('forEach: target must be a ArrayLike or ObjectLike');
 
   if (isArrayLike(target)) {
     for (var i = 0, len = target.length; i < len; i++) {
@@ -447,7 +447,7 @@ var includes = function (target, value) {
 
   _newArrowCheck(this, _this);
 
-  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('includes: target must b a Array/String/ObjectLike');
+  if (!isArrayLike(target) && !isObjectLike(target)) throw new TypeError('includes: target must b a Array/String/ObjectLike');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
   if (isArray(target)) return isFunction(Array.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;

@@ -267,7 +267,7 @@ const isArguments = (value) => isTypeOf(value, 'arguments');
  * @params {Function} target 遍历回调
  */
 const forEach = (target, callbcak) => {
-  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('forEach: target must be a ArrayLike or ObjectLike');
+  if (!isArrayLike(target) && !isObjectLike(target)) throw new TypeError('forEach: target must be a ArrayLike or ObjectLike');
 
   if (isArrayLike(target)) {
     for (let i = 0, len = target.length; i < len; i++) {
@@ -319,7 +319,7 @@ const indexOf = (target, value, fromIndex = 0) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
  */
 const includes = (target, value, position = 0) => {
-  if (!isArrayLike(target) || !isObjectLike(target)) throw new TypeError('includes: target must b a Array/String/ObjectLike');
+  if (!isArrayLike(target) && !isObjectLike(target)) throw new TypeError('includes: target must b a Array/String/ObjectLike');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
   if (isArray(target)) return isFunction(Array.prototype.includes) ? target.includes(value) : indexOf(target, value, position) > -1;
