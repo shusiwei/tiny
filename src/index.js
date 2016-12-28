@@ -271,11 +271,11 @@ const forEach = (target, callbcak) => {
 
   if (isArrayLike(target)) {
     for (let i = 0, len = target.length; i < len; i++) {
-      callbcak(target[i], i, target);
+      if (callbcak(target[i], i, target) === false) break;
     };
   } else if (isObjectLike(target)) {
     for (let key in target) {
-      callbcak(target[key], key, target);
+      if (callbcak(target[key], key, target) === false) break;
     };
   };
 };
