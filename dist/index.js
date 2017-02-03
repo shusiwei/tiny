@@ -646,7 +646,7 @@ var startsWith = function (target, value) {
   if (!isString(target)) throw new TypeError('startsWith: target must b a String');
   if (!isString(value)) throw new TypeError('startsWith: value must b a String');
 
-  return isFunction(String.prototype.startsWith) ? target.startsWith(value) : target.splice(0, value.length) === value;
+  return isFunction(String.prototype.startsWith) ? target.startsWith(value) : target.slice(0, value.length) === value;
 }.bind(this);
 
 /**
@@ -665,7 +665,7 @@ var endsWith = function (target, value) {
   if (!isString(target)) throw new TypeError('endsWith: target must b a String');
   if (!isString(value)) throw new TypeError('endsWith: value must b a String');
 
-  return isFunction(String.prototype.endsWith) ? target.endsWith(value) : target.splice(target.length - value.length) === value;
+  return isFunction(String.prototype.endsWith) ? target.endsWith(value) : target.slice(target.length - value.length) === value;
 }.bind(this);
 
 /**
