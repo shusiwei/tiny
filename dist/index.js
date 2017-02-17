@@ -815,7 +815,7 @@ var chunk = function (target) {
   var result = [];
 
   for (var i = 0; i < count; i++) {
-    var length = (i + 1) * size - 1;
+    var length = (i + 1) * size;
     var block = [];
 
     for (var j = i; j < length; j++) {

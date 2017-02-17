@@ -607,7 +607,7 @@ const chunk = (target, size = 1) => {
   const result = [];
 
   for (let i = 0; i < count; i++) {
-    const length = (i + 1) * size - 1;
+    const length = (i + 1) * size;
     const block = [];
 
     for (let j = i; j < length; j++) {
