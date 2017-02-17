@@ -818,12 +818,12 @@ var chunk = function (target) {
     var length = (i + 1) * size;
     var block = [];
 
+    result.push(block);
+
     for (var j = i; j < length; j++) {
       if (j === target.length) return result;
       block.push(target[j]);
     };
-
-    result.push(block);
   };
 
   return result;

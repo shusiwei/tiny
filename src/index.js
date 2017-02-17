@@ -610,12 +610,12 @@ const chunk = (target, size = 1) => {
     const length = (i + 1) * size;
     const block = [];
 
+    result.push(block);
+
     for (let j = i; j < length; j++) {
       if (j === target.length) return result;
       block.push(target[j]);
     };
-
-    result.push(block);
   };
 
   return result;
