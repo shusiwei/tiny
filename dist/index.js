@@ -819,6 +819,7 @@ var chunk = function (target) {
     var block = [];
 
     for (var j = i; j < length; j++) {
+      if (j === target.length) return result;
       block.push(target[j]);
     };
 
