@@ -793,6 +793,41 @@ var replace = function (target) {
   return append.apply(undefined, [empty(target)].concat(sources));
 }.bind(this);
 
+/**
+ * @name 将一个数组进行分割
+ *
+ * @params {Array} target 操作的数组
+ * @params {Number} size 一个或多个数组
+ *
+ * @return {Array} 被替换掉数据的target数组
+ */
+var chunk = function (target) {
+  var size = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+
+  _newArrowCheck(this, _this);
+
+  if (!isArray(target)) throw new TypeError('chunk: target must be a Array');
+  if (!isPosiInteger(size)) throw new TypeError('chunk: size must be a posiInteger');
+
+  if (target.length === 0) return target;
+
+  var count = Math.ceil(target.length / size);
+  var result = [];
+
+  for (var i = 0; i < count; i++) {
+    var length = (i + 1) * size - 1;
+    var block = [];
+
+    for (var j = i; j < length; j++) {
+      block.push(target[j]);
+    };
+
+    result.push(block);
+  };
+
+  return result;
+}.bind(this);
+
 /*
  * @name 得到当前时间戳
  *
@@ -838,4 +873,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-export { isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp };
+export { isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp };

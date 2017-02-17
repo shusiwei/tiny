@@ -589,6 +589,37 @@ const append = (target, ...sources) => {
  */
 const replace = (target, ...sources) => append(empty(target), ...sources);
 
+/**
+ * @name 将一个数组进行分割
+ *
+ * @params {Array} target 操作的数组
+ * @params {Number} size 一个或多个数组
+ *
+ * @return {Array} 被替换掉数据的target数组
+ */
+const chunk = (target, size = 1) => {
+  if (!isArray(target)) throw new TypeError('chunk: target must be a Array');
+  if (!isPosiInteger(size)) throw new TypeError('chunk: size must be a posiInteger');
+
+  if (target.length === 0) return target;
+
+  const count = Math.ceil(target.length / size);
+  const result = [];
+
+  for (let i = 0; i < count; i++) {
+    const length = (i + 1) * size - 1;
+    const block = [];
+
+    for (let j = i; j < length; j++) {
+      block.push(target[j]);
+    };
+
+    result.push(block);
+  };
+
+  return result;
+};
+
 /*
  * @name 得到当前时间戳
  *
@@ -622,4 +653,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, now, random, randomStamp};
+export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp};
