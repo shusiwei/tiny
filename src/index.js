@@ -612,7 +612,7 @@ const chunk = (target, size = 1) => {
 
     result.push(block);
 
-    for (let j = i; j < length; j++) {
+    for (let j = i * size; j < length; j++) {
       if (j === target.length) return result;
       block.push(target[j]);
     };
