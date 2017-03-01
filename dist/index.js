@@ -764,12 +764,7 @@ var append = function (target) {
     var source = _ref2;
 
     if (!isArray(source)) throw new TypeError('append: source must be a Array');
-
-    forEach(source, function (item) {
-      _newArrowCheck(this, _this);
-
-      target.push(item);
-    }.bind(this));
+    Array.prototype.push.apply(target, source);
   };
 
   return target;
