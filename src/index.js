@@ -570,7 +570,10 @@ const append = (target, ...sources) => {
 
   for (let source of sources) {
     if (!isArray(source)) throw new TypeError('append: source must be a Array');
-    Array.prototype.push.apply(target, source);
+
+    for (let item of source) {
+      target.push(item);
+    };
   };
 
   return target;

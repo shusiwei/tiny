@@ -764,7 +764,23 @@ var append = function (target) {
     var source = _ref2;
 
     if (!isArray(source)) throw new TypeError('append: source must be a Array');
-    Array.prototype.push.apply(target, source);
+
+    for (var _iterator3 = source, _isArray3 = Array.isArray(_iterator3), _i4 = 0, _iterator3 = _isArray3 ? _iterator3 : _iterator3[Symbol.iterator]();;) {
+      var _ref3;
+
+      if (_isArray3) {
+        if (_i4 >= _iterator3.length) break;
+        _ref3 = _iterator3[_i4++];
+      } else {
+        _i4 = _iterator3.next();
+        if (_i4.done) break;
+        _ref3 = _i4.value;
+      }
+
+      var item = _ref3;
+
+      target.push(item);
+    };
   };
 
   return target;
