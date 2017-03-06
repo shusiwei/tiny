@@ -621,29 +621,6 @@ const chunk = (target, size = 1) => {
   return result;
 };
 
-/**
- * @name 返回一个由给定对象的自身可枚举属性组成的数组
- *
- * @params {Object} target 对象
- *
- * @return {Array} 枚举属性组成的数组
- */
-const keys = target => {
-  if (!isObjectLike(target)) throw new TypeError('keys: target must be a ObjectLike');
-
-  if (isFunction(Object.keys)) {
-    return Object.keys(target);
-  } else {
-    const result = [];
-
-    forEach(target, (item, key) => {
-      result.push(key);
-    });
-
-    return result;
-  }
-};
-
 /*
  * @name 得到当前时间戳
  *
@@ -677,4 +654,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, keys, now, random, randomStamp};
+export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp};
