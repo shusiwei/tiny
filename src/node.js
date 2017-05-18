@@ -222,4 +222,4 @@ const isChildNode = (child, parent) => {
   return false;
 };
 
-export default {test, serialize, queryParse, cookieParse, setCookie, Sticky, isChildNode};
+export {test, serialize, queryParse, cookieParse, setCookie, Sticky, isChildNode};

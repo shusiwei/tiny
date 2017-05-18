@@ -352,4 +352,4 @@ var isChildNode = function (child, parent) {
   return false;
 }.bind(this);
 
-export default { test: test, serialize: serialize, queryParse: queryParse, cookieParse: cookieParse, setCookie: setCookie, Sticky: Sticky, isChildNode: isChildNode };
+export { test, serialize, queryParse, cookieParse, setCookie, Sticky, isChildNode };
