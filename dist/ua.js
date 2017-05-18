@@ -36,4 +36,4 @@ var isSafari = includes(ua, 'safari') && !includes(ua, 'chrome');
 var isChrome = includes(ua, 'chrome');
 var isFirefox = includes(ua, 'firefox');
 
-export default { isiOS: isiOS, isAndroid: isAndroid, isKernel: isKernel, isMobile: isMobile, isWebkit: isWebkit, isWechat: isWechat, isSafari: isSafari, isChrome: isChrome, isFirefox: isFirefox };
+export { isiOS, isAndroid, isKernel, isMobile, isWebkit, isWechat, isSafari, isChrome, isFirefox };

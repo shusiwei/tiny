@@ -16,4 +16,4 @@ const isSafari = includes(ua, 'safari') && !includes(ua, 'chrome');
 const isChrome = includes(ua, 'chrome');
 const isFirefox = includes(ua, 'firefox');
 
-export default {isiOS, isAndroid, isKernel, isMobile, isWebkit, isWechat, isSafari, isChrome, isFirefox};
+export {isiOS, isAndroid, isKernel, isMobile, isWebkit, isWechat, isSafari, isChrome, isFirefox};
