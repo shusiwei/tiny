@@ -1,10 +1,10 @@
 {
   "name": "tiny",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A modern JavaScript utility library",
   "main": "dist/index.js",
   "scripts": {
-    "eslint": "eslint src/index.js",
+    "eslint": "eslint src/*.js",
     "build": "npm run eslint && babel src -d dist"
   },
   "repository": {
