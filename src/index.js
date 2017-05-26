@@ -430,15 +430,11 @@ const padStart = (target, length, chars = ' ') => {
   if (!isPosiInteger(length)) throw new TypeError('padStart: length must b a Positive integer');
   if (!isString(chars)) throw new TypeError('padStart: chars must b a String');
 
-  if (isFunction(String.prototype.padStart)) {
-    return target.padStart(length, chars);
-  } else {
-    while (target.length < length) {
-      target = chars + target;
-    };
+  while (target.length < length) {
+    target = chars + target;
+  };
 
-    return target.slice(0, length);
-  }
+  return target.slice(0, length);
 };
 
 /**
