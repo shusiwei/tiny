@@ -271,18 +271,22 @@ const forEach = (target, callbcak) => {
 
   if (isArrayLike(target)) {
     for (let i = 0, len = target.length; i < len; i++) {
-      let result = callbcak(target[i], i, target);
-
-      if (!isUndefined(result)) return result;
+      callbcak(target[i], i, target);
     };
   } else if (isObjectLike(target)) {
     for (let key in target) {
-      let result = callbcak(target[key], key, target);
-
-      if (!isUndefined(result)) return result;
+      callbcak(target[key], key, target);
     };
   };
 };
+
+/*
+ * @name 对一个对象/字符串/正整数进行遍历并返回
+ *
+ * @params {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
+ * @params {Function} target 遍历回调
+ */
+const map = (target, callbcak) => forEach(target, (item, index, target) => callbcak(item, index, target));
 
 /**
  * @name 一个值在一个数组或字符串中的索引
@@ -650,4 +654,4 @@ const randomStamp = (length = 8) => {
   return stamp;
 };
 
-export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp};
+export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, map, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp};

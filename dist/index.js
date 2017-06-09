@@ -391,17 +391,29 @@ var forEach = function (target, callbcak) {
 
   if (isArrayLike(target)) {
     for (var i = 0, len = target.length; i < len; i++) {
-      var result = callbcak(target[i], i, target);
-
-      if (!isUndefined(result)) return result;
+      callbcak(target[i], i, target);
     };
   } else if (isObjectLike(target)) {
     for (var key in target) {
-      var _result = callbcak(target[key], key, target);
-
-      if (!isUndefined(_result)) return _result;
+      callbcak(target[key], key, target);
     };
   };
+}.bind(this);
+
+/*
+ * @name 对一个对象/字符串/正整数进行遍历并返回
+ *
+ * @params {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
+ * @params {Function} target 遍历回调
+ */
+var map = function (target, callbcak) {
+  _newArrowCheck(this, _this);
+
+  return forEach(target, function (item, index, target) {
+    _newArrowCheck(this, _this);
+
+    return callbcak(item, index, target);
+  }.bind(this));
 }.bind(this);
 
 /**
@@ -881,4 +893,4 @@ var randomStamp = function () {
   return stamp;
 }.bind(this);
 
-export { isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp };
+export { isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, map, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp };
