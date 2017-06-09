@@ -286,7 +286,15 @@ const forEach = (target, callbcak) => {
  * @params {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
  * @params {Function} target 遍历回调
  */
-const map = (target, callbcak) => forEach(target, (item, index, target) => callbcak(item, index, target));
+const map = (target, callbcak) => {
+  const result = [];
+
+  forEach(target, (item, index, target) => {
+    result.push(callbcak(item, index, target));
+  });
+
+  return result;
+};
 
 /**
  * @name 一个值在一个数组或字符串中的索引

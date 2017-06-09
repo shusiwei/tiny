@@ -409,11 +409,15 @@ var forEach = function (target, callbcak) {
 var map = function (target, callbcak) {
   _newArrowCheck(this, _this);
 
-  return forEach(target, function (item, index, target) {
+  var result = [];
+
+  forEach(target, function (item, index, target) {
     _newArrowCheck(this, _this);
 
-    return callbcak(item, index, target);
+    result.push(callbcak(item, index, target));
   }.bind(this));
+
+  return result;
 }.bind(this);
 
 /**
