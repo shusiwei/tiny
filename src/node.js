@@ -39,44 +39,6 @@ const removeEventListener = (el, fn, ...types) => {
 const makeArrayLikeObject = () => Object.defineProperty({}, 'length', {value: 0, writable: true, enumerable: false});
 
 /**
- * @name 对字符串进行类型测试
- *
- * @params {String} type * 测试的类型
- * @params {String} value * 测试的字符串
- *
- * @return {Boolean} 测试通过返回真，否则返回假
- */
-const test = (type, value) => {
-  if (!isString(value)) throw new TypeError('value must be a String');
-
-  switch (type) {
-    case 'username' :
-      return /^[\u4E00-\u9FA5a-zA-Z]{2,15}$/.test(value);
-
-    case 'cellphone' :
-      return /^(13[0-9]{9}|15[012356789][0-9]{8}|18[0-9][0-9]{8}|14[57][0-9]{8}|17[0-9][0-9]{8})$/.test(value);
-
-    case 'telephone' :
-      return /^(0\d{2,3})?(\d{7,8})$/.test(value);
-
-    case 'phone' :
-      return test('cell', value) && test('tel', value);
-
-    case 'email' :
-      return /^\w+((-\w+)|(\.\w+))*@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(value);
-
-    case 'chinese' :
-      return /^[\u4E00-\u9FA5]+$/.test(value);
-
-    case 'integer' :
-      return /^\d+$/g.test(value);
-
-    default :
-      throw new Error('test type support username/cellphone/telephone/phone/email/chinese/integer');
-  }
-};
-
-/**
  * @name 将一个对象序列化为一个queryString字符串
  *
  * @params {Object} source * 操作的对象
@@ -222,4 +184,4 @@ const isChildNode = (child, parent) => {
   return false;
 };
 
-export {test, serialize, queryParse, cookieParse, setCookie, Sticky, isChildNode};
+export {serialize, queryParse, cookieParse, setCookie, Sticky, isChildNode};
