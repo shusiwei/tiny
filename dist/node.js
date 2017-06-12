@@ -167,7 +167,7 @@ var serialize = function () {
     if (!isPlainObject(source)) throw new TypeError('source must b a plain Object');
 
     for (var key in source) {
-      if (source[key] !== undefined) result.push(key + '=' + source[key]);
+      if (source[key] !== undefined) result.push(key + '=' + encodeURIComponent(source[key]));
     };
   };
 

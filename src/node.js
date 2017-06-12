@@ -92,7 +92,7 @@ const serialize = (...sources) => {
     if (!isPlainObject(source)) throw new TypeError('source must b a plain Object');
 
     for (let key in source) {
-      if (source[key] !== undefined) result.push(key + '=' + source[key]);
+      if (source[key] !== undefined) result.push(key + '=' + encodeURIComponent(source[key]));
     };
   };
 
