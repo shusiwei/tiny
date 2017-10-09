@@ -10,8 +10,7 @@
  */
 import {isPlainObject, isString, forEach, isPosiInteger} from './index';
 
-const document = window.document;
-
+const {document} = window;
 const addEventListener = (el, fn, ...types) => {
   if (types.length === 0) throw new Error('at least one event name is required');
 
@@ -41,11 +40,11 @@ const makeArrayLikeObject = () => Object.defineProperty({}, 'length', {value: 0,
 /**
  * @name 将一个对象序列化为一个queryString字符串
  *
- * @params {Object} source * 操作的对象
+ * @param {Object} source * 操作的对象
  *
  * @return {String} queryString字符串
  */
-const serialize = (...sources) => {
+export const serialize = (...sources) => {
   if (sources.length === 0) return '';
 
   const result = [];
@@ -64,12 +63,12 @@ const serialize = (...sources) => {
 /**
  * @name 将一个queryString字符串转化成一个对象
  *
- * @params {String} source * 操作的对象
- * @params {String} keys 需要返回值的key
+ * @param {String} source * 操作的对象
+ * @param {String} keys 需要返回值的key
  *
  * @return {Object} 当keys参数为空时，返回该对象，当keys参数只有一个时，则返回该对象中key为此参数的值，当keys参数有多个时，则以一个对象的形式返回该对象所有keys中的参数的值
  */
-const queryParse = (source, ...keys) => {
+export const queryParse = (source, ...keys) => {
   if (!isString(source)) throw new TypeError('source must b a String');
 
   const result = makeArrayLikeObject();
@@ -97,23 +96,23 @@ const queryParse = (source, ...keys) => {
 /**
  * @name 将cookie字符串转化成一个对象
  *
- * @params {String} keys 需要返回值的key
+ * @param {String} keys 需要返回值的key
  *
  * @return {Object} 当keys参数为空时，返回该对象，当keys参数只有一个时，则返回该对象中key为此参数的值，当keys参数有多个时，则以一个对象的形式返回该对象所有keys中的参数的值
  */
-const cookieParse = (...keys) => queryParse(document.cookie.replace(/; /g, '&'), ...keys);
+export const cookieParse = (...keys) => queryParse(document.cookie.replace(/; /g, '&'), ...keys);
 
 /**
  * @name 设置cookie
  *
- * @params {String} name * cookie名称
- * @params {String} value * cookie值
- * @params {Object} options 过期天数&其它参数
- * @params {String} options.path cookie所在路径
- * @params {String} options.domain cookie所在域
- * @params {String} options.secure cookie是否只允许在安全链接中读取
+ * @param {String} name * cookie名称
+ * @param {String} value * cookie值
+ * @param {Object} options 过期天数&其它参数
+ * @param {String} options.path cookie所在路径
+ * @param {String} options.domain cookie所在域
+ * @param {String} options.secure cookie是否只允许在安全链接中读取
  */
-const setCookie = (name, value, ...options) => {
+export const setCookie = (name, value, ...options) => {
   let cookie = name + '=' + value;
 
   for (let option of options) {
@@ -136,7 +135,7 @@ const setCookie = (name, value, ...options) => {
   return cookieParse();
 };
 
-class Sticky {
+export class Sticky {
   constructor(target, body) {
     this.target = target;
     this.body = body;
@@ -169,7 +168,7 @@ class Sticky {
   }
 };
 
-const isChildNode = (child, parent) => {
+export const isChildNode = (child, parent) => {
   if (child === parent) return true;
   let target = child;
 
@@ -183,5 +182,3 @@ const isChildNode = (child, parent) => {
 
   return false;
 };
-
-export {serialize, queryParse, cookieParse, setCookie, Sticky, isChildNode};

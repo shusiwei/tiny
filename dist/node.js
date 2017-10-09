@@ -1,8 +1,4 @@
-var _this = this;
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _newArrowCheck(innerThis, boundThis) { if (innerThis !== boundThis) { throw new TypeError("Cannot instantiate an arrow function"); } }
 
 /*
  * tiny-node.js
@@ -16,14 +12,13 @@ function _newArrowCheck(innerThis, boundThis) { if (innerThis !== boundThis) { t
  */
 import { isPlainObject, isString, forEach, isPosiInteger } from './index';
 
-var document = window.document;
+var _window = window,
+    document = _window.document;
 
-var addEventListener = function (el, fn) {
+var addEventListener = function addEventListener(el, fn) {
   for (var _len = arguments.length, types = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
     types[_key - 2] = arguments[_key];
   }
-
-  _newArrowCheck(this, _this);
 
   if (types.length === 0) throw new Error('at least one event name is required');
 
@@ -45,13 +40,11 @@ var addEventListener = function (el, fn) {
   };
 
   return el;
-}.bind(this);
-var removeEventListener = function (el, fn) {
+};
+var removeEventListener = function removeEventListener(el, fn) {
   for (var _len2 = arguments.length, types = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
     types[_key2 - 2] = arguments[_key2];
   }
-
-  _newArrowCheck(this, _this);
 
   if (types.length === 0) throw new Error('at least one event name is required');
 
@@ -73,32 +66,28 @@ var removeEventListener = function (el, fn) {
   };
 
   return el;
-}.bind(this);
+};
 
 /**
  * @name 创建一个带有类似数组长度的Object对象
  *
  * @return 返回该对象
  */
-var makeArrayLikeObject = function () {
-  _newArrowCheck(this, _this);
-
+var makeArrayLikeObject = function makeArrayLikeObject() {
   return Object.defineProperty({}, 'length', { value: 0, writable: true, enumerable: false });
-}.bind(this);
+};
 
 /**
  * @name 将一个对象序列化为一个queryString字符串
  *
- * @params {Object} source * 操作的对象
+ * @param {Object} source * 操作的对象
  *
  * @return {String} queryString字符串
  */
-var serialize = function () {
+export var serialize = function serialize() {
   for (var _len3 = arguments.length, sources = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
     sources[_key3] = arguments[_key3];
   }
-
-  _newArrowCheck(this, _this);
 
   if (sources.length === 0) return '';
 
@@ -126,35 +115,31 @@ var serialize = function () {
   };
 
   return result.join('&');
-}.bind(this);
+};
 
 /**
  * @name 将一个queryString字符串转化成一个对象
  *
- * @params {String} source * 操作的对象
- * @params {String} keys 需要返回值的key
+ * @param {String} source * 操作的对象
+ * @param {String} keys 需要返回值的key
  *
  * @return {Object} 当keys参数为空时，返回该对象，当keys参数只有一个时，则返回该对象中key为此参数的值，当keys参数有多个时，则以一个对象的形式返回该对象所有keys中的参数的值
  */
-var queryParse = function (source) {
+export var queryParse = function queryParse(source) {
   for (var _len4 = arguments.length, keys = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
     keys[_key4 - 1] = arguments[_key4];
   }
-
-  _newArrowCheck(this, _this);
 
   if (!isString(source)) throw new TypeError('source must b a String');
 
   var result = makeArrayLikeObject();
 
   forEach(source.replace(/^\?/, '').split('&'), function (string) {
-    _newArrowCheck(this, _this);
-
     var item = string.split('=');
 
     result[item[0]] = item[1];
     result.length++;
-  }.bind(this));
+  });
 
   if (keys.length === 0) return result;
   if (keys.length === 1) return result[keys[0]];
@@ -162,48 +147,42 @@ var queryParse = function (source) {
   var dumpData = makeArrayLikeObject();
 
   forEach(keys, function (key) {
-    _newArrowCheck(this, _this);
-
     dumpData[key] = result[key];
     dumpData.length++;
-  }.bind(this));
+  });
 
   return dumpData;
-}.bind(this);
+};
 
 /**
  * @name 将cookie字符串转化成一个对象
  *
- * @params {String} keys 需要返回值的key
+ * @param {String} keys 需要返回值的key
  *
  * @return {Object} 当keys参数为空时，返回该对象，当keys参数只有一个时，则返回该对象中key为此参数的值，当keys参数有多个时，则以一个对象的形式返回该对象所有keys中的参数的值
  */
-var cookieParse = function () {
+export var cookieParse = function cookieParse() {
   for (var _len5 = arguments.length, keys = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
     keys[_key5] = arguments[_key5];
   }
 
-  _newArrowCheck(this, _this);
-
   return queryParse.apply(undefined, [document.cookie.replace(/; /g, '&')].concat(keys));
-}.bind(this);
+};
 
 /**
  * @name 设置cookie
  *
- * @params {String} name * cookie名称
- * @params {String} value * cookie值
- * @params {Object} options 过期天数&其它参数
- * @params {String} options.path cookie所在路径
- * @params {String} options.domain cookie所在域
- * @params {String} options.secure cookie是否只允许在安全链接中读取
+ * @param {String} name * cookie名称
+ * @param {String} value * cookie值
+ * @param {Object} options 过期天数&其它参数
+ * @param {String} options.path cookie所在路径
+ * @param {String} options.domain cookie所在域
+ * @param {String} options.secure cookie是否只允许在安全链接中读取
  */
-var setCookie = function (name, value) {
+export var setCookie = function setCookie(name, value) {
   for (var _len6 = arguments.length, options = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
     options[_key6 - 2] = arguments[_key6];
   }
-
-  _newArrowCheck(this, _this);
 
   var cookie = name + '=' + value;
 
@@ -238,9 +217,9 @@ var setCookie = function (name, value) {
   document.cookie = cookie;
 
   return cookieParse();
-}.bind(this);
+};
 
-var Sticky = function () {
+export var Sticky = function () {
   function Sticky(target, body) {
     _classCallCheck(this, Sticky);
 
@@ -269,13 +248,11 @@ var Sticky = function () {
   };
 
   Sticky.prototype.bind = function bind() {
-    var _this2 = this;
+    var _this = this;
 
     this.event = function () {
-      _newArrowCheck(this, _this2);
-
-      return this.update();
-    }.bind(this);
+      return _this.update();
+    };
 
     addEventListener(window, this.event, 'resize', 'scroll');
   };
@@ -285,13 +262,9 @@ var Sticky = function () {
   };
 
   return Sticky;
-}();
+}();;
 
-;
-
-var isChildNode = function (child, parent) {
-  _newArrowCheck(this, _this);
-
+export var isChildNode = function isChildNode(child, parent) {
   if (child === parent) return true;
   var target = child;
 
@@ -304,6 +277,4 @@ var isChildNode = function (child, parent) {
   };
 
   return false;
-}.bind(this);
-
-export { serialize, queryParse, cookieParse, setCookie, Sticky, isChildNode };
+};

@@ -7,266 +7,266 @@ const MAX_INTEGER = 1.79E+308;
 // 最小数
 const MIN_INTEGER = 5e-324;
 
-/*
+/**
  * @name 获取一个对象的原型类型
  *
- * @params {Anything} object 任何类型的数据
+ * @param {Anything} object 任何类型的数据
  *
  * @return {String} 对象的原型类型
  */
 const prototype = (object) => Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
 
-/*
+/**
  * @name 判断一个对象是否为某个类型
  *
- * @params {Anything} value 任何类型的数据
- * @params {String} type 类型名称
+ * @param {Anything} value 任何类型的数据
+ * @param {String} type 类型名称
  *
  * @return {Boolean} 真或假
  */
-const isTypeOf = (object, type) => prototype(object) === type;
+export const isTypeOf = (object, type) => prototype(object) === type;
 
-/*
+/**
  * @name 判断一个对象是否为undefined
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isUndefined = (value) => value === undefined;
+export const isUndefined = (value) => value === undefined;
 
-/*
+/**
  * @name 判断一个对象是否为null
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isNull = (value) => value === null;
+export const isNull = (value) => value === null;
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为布尔值
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isBoolean = (value) => typeof value === 'boolean';
+export const isBoolean = (value) => typeof value === 'boolean';
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为数字
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isNumber = (value) => typeof value === 'number';
+export const isNumber = (value) => typeof value === 'number';
 
-/*
+/**
  * @name 判断一个数值是一个有穷数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isFiniteNumber = (value) => Number.isFinite ? Number.isFinite(value) : isNumber(value) && isFinite(value);
+export const isFiniteNumber = (value) => Number.isFinite ? Number.isFinite(value) : isNumber(value) && isFinite(value);
 
-/*
+/**
  * @name 判断一个数值是否为整数，包括正整数和负整数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isInteger = (value) => Number.isInteger ? Number.isInteger(value) : isFiniteNumber(value) && Math.floor(value) === value;
+export const isInteger = (value) => Number.isInteger ? Number.isInteger(value) : isFiniteNumber(value) && Math.floor(value) === value;
 
-/*
+/**
  * @name 判断一个数值是否为安全整数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isSafeInteger = (value) => Number.isSafeInteger ? Number.isSafeInteger(value) : isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
+export const isSafeInteger = (value) => Number.isSafeInteger ? Number.isSafeInteger(value) : isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
 
-/*
+/**
  * @name 判断一个数值是否为正数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isPositive = (value) => isFiniteNumber(value) && value > 0;
+export const isPositive = (value) => isFiniteNumber(value) && value > 0;
 
-/*
+/**
  * @name 判断一个数值是否为负数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isNegative = (value) => isFiniteNumber(value) && value < 0;
+export const isNegative = (value) => isFiniteNumber(value) && value < 0;
 
-/*
+/**
  * @name 判断一个数值是否为正整数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isPosiInteger = (value) => isInteger(value) && isPositive(value);
+export const isPosiInteger = (value) => isInteger(value) && isPositive(value);
 
-/*
+/**
  * @name 判断一个数值是否为负整数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isNegaInteger = (value) => isInteger(value) && isNegative(value);
+export const isNegaInteger = (value) => isInteger(value) && isNegative(value);
 
-/*
+/**
  * @name 判断一个数值是否为浮点数，包括正浮点数和负浮点数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isFloat = (value) => isFiniteNumber(value) && !isInteger(value);
+export const isFloat = (value) => isFiniteNumber(value) && !isInteger(value);
 
-/*
+/**
  * @name 判断一个数值是否为正浮点数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isPosiFloat = (value) => isFloat(value) && isPositive(value);
+export const isPosiFloat = (value) => isFloat(value) && isPositive(value);
 
-/*
+/**
  * @name 判断一个数值是否为负浮点数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isNegaFloat = (value) => isFloat(value) && isNegative(value);
+export const isNegaFloat = (value) => isFloat(value) && isNegative(value);
 
-/*
+/**
  * @name 判断一个值是否为一个长度值
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isLength = (value) => isSafeInteger(value) && value > -1;
+export const isLength = (value) => isSafeInteger(value) && value > -1;
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为字符串
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isString = (value) => typeof value === 'string';
+export const isString = (value) => typeof value === 'string';
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为函数
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isFunction = (value) => typeof value === 'function';
+export const isFunction = (value) => typeof value === 'function';
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isObjectLike = (value) => !isNull(value) && typeof value === 'object';
+export const isObjectLike = (value) => !isNull(value) && typeof value === 'object';
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isObject = (value) => isObjectLike(value) || isFunction(value);
+export const isObject = (value) => isObjectLike(value) || isFunction(value);
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为对象，包括原生对象
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isPlainObject = (value) => isObjectLike(value) && value.constructor === Object;
+export const isPlainObject = (value) => isObjectLike(value) && value.constructor === Object;
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为数组
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isArray = (value) => isTypeOf(value, 'array');
+export const isArray = (value) => isTypeOf(value, 'array');
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为类数组对象，包括Array/String/NodeList/Arguments等
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isArrayLike = (value) => !isNull(value) && !isFunction(value) && isLength(value.length);
+export const isArrayLike = (value) => !isNull(value) && !isFunction(value) && isLength(value.length);
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为正则表达式
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isRegExp = (value) => isTypeOf(value, 'regexp');
+export const isRegExp = (value) => isTypeOf(value, 'regexp');
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为日期
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isDate = (value) => isTypeOf(value, 'date');
+export const isDate = (value) => isTypeOf(value, 'date');
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为Error类型
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isError = (value) => isTypeOf(value, 'error');
+export const isError = (value) => isTypeOf(value, 'error');
 
-/*
+/**
  * @name 判断一个对象的数据类型是否为Arguments
  *
- * @params {Anything} value 任何类型的数据
+ * @param {Anything} value 任何类型的数据
  *
  * @return {Boolean} 真或假
  */
-const isArguments = (value) => isTypeOf(value, 'arguments');
+export const isArguments = (value) => isTypeOf(value, 'arguments');
 
-/*
+/**
  * @name 对一个对象/字符串/正整数进行遍历
  *
- * @params {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
- * @params {Function} target 遍历回调
+ * @param {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
+ * @param {Function} target 遍历回调
  */
-const forEach = (target, callbcak) => {
+export const forEach = (target, callbcak) => {
   if (!isArrayLike(target) && !isObjectLike(target)) throw new TypeError('forEach: target must be a ArrayLike or ObjectLike');
 
   if (isArrayLike(target)) {
@@ -280,13 +280,15 @@ const forEach = (target, callbcak) => {
   };
 };
 
-/*
+/**
  * @name 对一个对象/字符串/正整数进行遍历并返回
  *
- * @params {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
- * @params {Function} target 遍历回调
+ * @param {ArrayLike, ObjectLike} target 可进行遍历的对象或个数
+ * @param {Function} target 遍历回调
+ *
+ * @return {Array} 重新组合的数组
  */
-const map = (target, callbcak) => {
+export const map = (target, callbcak) => {
   const result = [];
 
   forEach(target, (item, index, target) => {
@@ -299,15 +301,15 @@ const map = (target, callbcak) => {
 /**
  * @name 一个值在一个数组或字符串中的索引
  *
- * @params {ArrayLike} target 检测的对象
- * @params {Anything} value 任意值
+ * @param {ArrayLike} target 检测的对象
+ * @param {Anything} value 任意值
  *
  * @return {Number} 如果存在则返回一个索引，否则则返回-1
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/indexOf
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/indexOf
  */
-const indexOf = (target, value, fromIndex = 0) => {
+export const indexOf = (target, value, fromIndex = 0) => {
   if (!isArrayLike(target)) throw new TypeError('indexOf: target must be a ArrayLike');
 
   if (isString(target)) return target.indexOf(value, fromIndex);
@@ -325,16 +327,16 @@ const indexOf = (target, value, fromIndex = 0) => {
 /**
  * @name 判断一个对象中是否包含某个值
  *
- * @params {String/Array/Object} target 检测的对象
- * @params {Anythin} value 任意值
- * @params {Number} position [0] 开始查找的位置
+ * @param {String/Array/Object} target 检测的对象
+ * @param {Anythin} value 任意值
+ * @param {Number} position [0] 开始查找的位置
  *
  * @return {Boolean} 真或假
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/includes
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
  */
-const includes = (target, value, position = 0) => {
+export const includes = (target, value, position = 0) => {
   if (!isArrayLike(target) && !isObjectLike(target)) throw new TypeError('includes: target must b a Array/String/ObjectLike');
   if (position !== 0 && !isPosiInteger(position)) throw new TypeError('includes: position must b a Positive integer');
 
@@ -353,14 +355,14 @@ const includes = (target, value, position = 0) => {
 /**
  * @name 把任意多个的源对象自身的可枚举属性拷贝给目标对象，然后返回目标对象
  *
- * @params {ObjectLike} target 目标对象
- * @params {ObjectLike} sources 任意多个源对象
+ * @param {ObjectLike} target 目标对象
+ * @param {ObjectLike} sources 任意多个源对象
  *
  * @return {Object} 目标对象
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
  */
-const assign = (target, ...sources) => {
+export const assign = (target, ...sources) => {
   if (!isObjectLike(target)) throw new TypeError('assign: target must be a ObjectLike');
 
   if (isFunction(Object.assign)) {
@@ -383,14 +385,14 @@ const assign = (target, ...sources) => {
 /**
  * @name 删除一个字符串两端的连续空白字符(space、tab、no-break space、LF、CR等)
  *
- * @params {String} target 操作的字符串
+ * @param {String} target 操作的字符串
  *
  * @return {String} 删除空白字符后的新字符串
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimRegex = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-const trim = (target) => {
+export const trim = (target) => {
   if (!isString(target)) throw new TypeError('trim: target must b a String');
 
   return isFunction(String.prototype.trim) ? target.trim() : target.replace(trimRegex, '');
@@ -399,14 +401,14 @@ const trim = (target) => {
 /**
  * @name 删除一个字符串左端的连续空白字符(space、tab、no-break space、LF、CR等)
  *
- * @params {String} target 操作的字符串
+ * @param {String} target 操作的字符串
  *
  * @return {String} 删除空白字符后的新字符串
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimLeftRegex = /^[\s\uFEFF\xA0]+/;
-const trimLeft = (target) => {
+export const trimLeft = (target) => {
   if (!isString(target)) throw new TypeError('trimLeft: target must b a String');
 
   return isFunction(String.prototype.trimLeft) ? target.trimLeft() : target.replace(trimLeftRegex, '');
@@ -415,14 +417,14 @@ const trimLeft = (target) => {
 /**
  * @name 删除一个字符串右端的连续空白字符(space、tab、no-break space、LF、CR等)
  *
- * @params {String} target 操作的字符串
+ * @param {String} target 操作的字符串
  *
  * @return {String} 删除空白字符后的新字符串
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimRightRegex = /[\s\uFEFF\xA0]+$/;
-const trimRight = (target) => {
+export const trimRight = (target) => {
   if (!isString(target)) throw new TypeError('trimRight: target must b a String');
 
   return isFunction(String.prototype.trimRight) ? target.trimRight() : target.replace(trimRightRegex, '');
@@ -431,13 +433,13 @@ const trimRight = (target) => {
 /**
  * @name 使用占位字符在一个字符串前面不断直译直到达到一个固定长度
  *
- * @params {String} target 操作的字符串
- * @params {Number} length 目录长度
- * @params {String} chars[' '] 占位字符
+ * @param {String} target 操作的字符串
+ * @param {Number} length 目录长度
+ * @param {String} chars[' '] 占位字符
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
-const padStart = (target, length, chars = ' ') => {
+export const padStart = (target, length, chars = ' ') => {
   if (!isString(target)) throw new TypeError('padStart: target must b a String');
   if (!isPosiInteger(length)) throw new TypeError('padStart: length must b a Positive integer');
   if (!isString(chars)) throw new TypeError('padStart: chars must b a String');
@@ -452,13 +454,13 @@ const padStart = (target, length, chars = ' ') => {
 /**
  * @name 使用占位字符在一个字符串后面不断直译直到达到一个固定长度
  *
- * @params {String} target 操作的字符串
- * @params {Number} length [0] 目录长度
- * @params {String} chars[' '] 占位字符
+ * @param {String} target 操作的字符串
+ * @param {Number} length [0] 目录长度
+ * @param {String} chars[' '] 占位字符
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
-const padEnd = (target, length = 0, chars = ' ') => {
+export const padEnd = (target, length = 0, chars = ' ') => {
   if (!isString(target)) throw new TypeError('padEnd: target must b a String');
   if (!isPosiInteger(length)) throw new TypeError('padEnd: length must b a Positive integer');
   if (!isString(chars)) throw new TypeError('padEnd: chars must b a String');
@@ -477,14 +479,14 @@ const padEnd = (target, length = 0, chars = ' ') => {
 /**
  * @name 判断字符串的起始位置是否匹配其他字符串中的字符
  *
- * @params {String} target 操作的字符串
- * @params {String} value 结尾匹配的字符串
+ * @param {String} target 操作的字符串
+ * @param {String} value 结尾匹配的字符串
  *
  * @return {Boolean} 真或假
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
  */
-const startsWith = (target, value) => {
+export const startsWith = (target, value) => {
   if (!isString(target)) throw new TypeError('startsWith: target must b a String');
   if (!isString(value)) throw new TypeError('startsWith: value must b a String');
 
@@ -494,14 +496,14 @@ const startsWith = (target, value) => {
 /**
  * @name 判断一个字符串的结尾是否包含其他字符串中的字符
  *
- * @params {String} target 操作的字符串
- * @params {String} value 结尾匹配的字符串
+ * @param {String} target 操作的字符串
+ * @param {String} value 结尾匹配的字符串
  *
  * @return {Boolean} 真或假
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith
  */
-const endsWith = (target, value) => {
+export const endsWith = (target, value) => {
   if (!isString(target)) throw new TypeError('endsWith: target must b a String');
   if (!isString(value)) throw new TypeError('endsWith: value must b a String');
 
@@ -511,13 +513,13 @@ const endsWith = (target, value) => {
 /**
  * @name 使用分隔符对字符串进行分割
  *
- * @params {String} source 操作的字符串
- * @params {String, Number} rule [4] 如果为整数，则按此长度分割，如果为字符串，则将字符串中的';'作为做分隔占位符
- * @params {String} separator[' '] 分隔字符
+ * @param {String} source 操作的字符串
+ * @param {String, Number} rule [4] 如果为整数，则按此长度分割，如果为字符串，则将字符串中的';'作为做分隔占位符
+ * @param {String} separator[' '] 分隔字符
  *
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
-const separate = (source, rule = 4, separator = ' ') => {
+export const separate = (source, rule = 4, separator = ' ') => {
   if (!isString(source)) throw new TypeError('separate: source must b a String');
   if (!isString(rule) && !isPosiInteger(rule)) throw new TypeError('separate: rule must b a String or Positive integer');
   if (!isString(separator)) throw new TypeError('separate: separator must b a String or space');
@@ -551,11 +553,11 @@ const separate = (source, rule = 4, separator = ' ') => {
 /**
  * @name 清空一个数组
  *
- * @params {Array} target 操作的数组
+ * @param {Array} target 操作的数组
  *
  * @return {Array} 清空后的数组
  */
-const empty = (target) => {
+export const empty = (target) => {
   if (!isArray(target)) throw new TypeError('empty: target must be a Array');
 
   // 清空所有的值
@@ -568,12 +570,12 @@ const empty = (target) => {
 /**
  * @name 将其它数组的值拉入第一个数组
  *
- * @params {Array} target 操作的数组
- * @params {Array} sources 一个或多个数组
+ * @param {Array} target 操作的数组
+ * @param {Array} sources 一个或多个数组
  *
  * @return {Array} 被拉入数据的target数组
  */
-const append = (target, ...sources) => {
+export const append = (target, ...sources) => {
   if (!isArray(target)) throw new TypeError('append: target must be a Array');
 
   for (let source of sources) {
@@ -590,22 +592,22 @@ const append = (target, ...sources) => {
 /**
  * @name 将其它数组的值替换第一个数组的值
  *
- * @params {Array} target 操作的数组
- * @params {Array} sources 一个或多个数组
+ * @param {Array} target 操作的数组
+ * @param {Array} sources 一个或多个数组
  *
  * @return {Array} 被替换掉数据的target数组
  */
-const replace = (target, ...sources) => append(empty(target), ...sources);
+export const replace = (target, ...sources) => append(empty(target), ...sources);
 
 /**
  * @name 将一个数组进行分割
  *
- * @params {Array} target 操作的数组
- * @params {Number} size 一个或多个数组
+ * @param {Array} target 操作的数组
+ * @param {Number} size 一个或多个数组
  *
  * @return {Array} 被替换掉数据的target数组
  */
-const chunk = (target, size = 1) => {
+export const chunk = (target, size = 1) => {
   if (!isArray(target)) throw new TypeError('chunk: target must be a Array');
   if (!isPosiInteger(size)) throw new TypeError('chunk: size must be a posiInteger');
 
@@ -629,29 +631,29 @@ const chunk = (target, size = 1) => {
   return result;
 };
 
-/*
+/**
  * @name 得到当前时间戳
  *
  * @return 当前时间戳
  */
-const now = () => new Date().getTime();
+export const now = () => new Date().getTime();
 
-/*
- * 得到一个随机数
+/**
+ * @name 得到一个随机数
  *
  * @return 随机数
  */
-const random = () => Math.round(now() * Math.random());
+export const random = () => Math.round(now() * Math.random());
 
-/*
+/**
  * @name 得到一个随机字符戳
  *
- * @params {Number} length [8] 返回的字符串长度
+ * @param {Number} length [8] 返回的字符串长度
  *
  * @return {String} 随机字符戳
  */
 const stampStr = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const randomStamp = (length = 8) => {
+export const randomStamp = (length = 8) => {
   const maxIndex = stampStr.length;
   let stamp = '';
 
@@ -661,5 +663,3 @@ const randomStamp = (length = 8) => {
 
   return stamp;
 };
-
-export {isTypeOf, isUndefined, isNull, isBoolean, isNumber, isFiniteNumber, isInteger, isSafeInteger, isPositive, isNegative, isPosiInteger, isNegaInteger, isFloat, isPosiFloat, isNegaFloat, isLength, isString, isFunction, isObjectLike, isObject, isPlainObject, isArray, isArrayLike, isRegExp, isDate, isError, isArguments, forEach, map, indexOf, includes, assign, trim, trimLeft, trimRight, padStart, padEnd, startsWith, endsWith, separate, empty, append, replace, chunk, now, random, randomStamp};
