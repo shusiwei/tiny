@@ -231,17 +231,6 @@ export var isObjectLike = function isObjectLike(value) {
 };
 
 /**
- * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
- *
- * @param {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-export var isObject = function isObject(value) {
-  return isObjectLike(value) || isFunction(value);
-};
-
-/**
  * @name 判断一个对象的数据类型是否为对象，包括原生对象
  *
  * @param {Anything} value 任何类型的数据
@@ -250,6 +239,17 @@ export var isObject = function isObject(value) {
  */
 export var isPlainObject = function isPlainObject(value) {
   return isObjectLike(value) && value.constructor === Object;
+};
+
+/**
+ * @name 判断一个对象是否不可枚举属性
+ *
+ * @param {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+export var isEmptyObject = function isEmptyObject(value) {
+  return isPlainObject(value) && Object.keys(value).length === 0;
 };
 
 /**
@@ -271,7 +271,7 @@ export var isArray = function isArray(value) {
  * @return {Boolean} 真或假
  */
 export var isArrayLike = function isArrayLike(value) {
-  return !isNull(value) && !isFunction(value) && isLength(value.length);
+  return !isNull(value) && !isFunction(value) && !isPlainObject(value) && isLength(value.length);
 };
 
 /**

@@ -14,7 +14,7 @@ const MIN_INTEGER = 5e-324;
  *
  * @return {String} 对象的原型类型
  */
-const prototype = (object) => Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
+const prototype = object => Object.prototype.toString.call(object).toLowerCase().slice(8, -1);
 
 /**
  * @name 判断一个对象是否为某个类型
@@ -33,7 +33,7 @@ export const isTypeOf = (object, type) => prototype(object) === type;
  *
  * @return {Boolean} 真或假
  */
-export const isUndefined = (value) => value === undefined;
+export const isUndefined = value => value === undefined;
 
 /**
  * @name 判断一个对象是否为null
@@ -42,7 +42,7 @@ export const isUndefined = (value) => value === undefined;
  *
  * @return {Boolean} 真或假
  */
-export const isNull = (value) => value === null;
+export const isNull = value => value === null;
 
 /**
  * @name 判断一个对象的数据类型是否为布尔值
@@ -51,7 +51,7 @@ export const isNull = (value) => value === null;
  *
  * @return {Boolean} 真或假
  */
-export const isBoolean = (value) => typeof value === 'boolean';
+export const isBoolean = value => typeof value === 'boolean';
 
 /**
  * @name 判断一个对象的数据类型是否为数字
@@ -60,7 +60,7 @@ export const isBoolean = (value) => typeof value === 'boolean';
  *
  * @return {Boolean} 真或假
  */
-export const isNumber = (value) => typeof value === 'number';
+export const isNumber = value => typeof value === 'number';
 
 /**
  * @name 判断一个数值是一个有穷数
@@ -69,7 +69,7 @@ export const isNumber = (value) => typeof value === 'number';
  *
  * @return {Boolean} 真或假
  */
-export const isFiniteNumber = (value) => Number.isFinite ? Number.isFinite(value) : isNumber(value) && isFinite(value);
+export const isFiniteNumber = value => Number.isFinite ? Number.isFinite(value) : isNumber(value) && isFinite(value);
 
 /**
  * @name 判断一个数值是否为整数，包括正整数和负整数
@@ -78,7 +78,7 @@ export const isFiniteNumber = (value) => Number.isFinite ? Number.isFinite(value
  *
  * @return {Boolean} 真或假
  */
-export const isInteger = (value) => Number.isInteger ? Number.isInteger(value) : isFiniteNumber(value) && Math.floor(value) === value;
+export const isInteger = value => Number.isInteger ? Number.isInteger(value) : isFiniteNumber(value) && Math.floor(value) === value;
 
 /**
  * @name 判断一个数值是否为安全整数
@@ -87,7 +87,7 @@ export const isInteger = (value) => Number.isInteger ? Number.isInteger(value) :
  *
  * @return {Boolean} 真或假
  */
-export const isSafeInteger = (value) => Number.isSafeInteger ? Number.isSafeInteger(value) : isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
+export const isSafeInteger = value => Number.isSafeInteger ? Number.isSafeInteger(value) : isInteger(value) && Math.abs(value) <= MAX_SAFE_INTEGER;
 
 /**
  * @name 判断一个数值是否为正数
@@ -96,7 +96,7 @@ export const isSafeInteger = (value) => Number.isSafeInteger ? Number.isSafeInte
  *
  * @return {Boolean} 真或假
  */
-export const isPositive = (value) => isFiniteNumber(value) && value > 0;
+export const isPositive = value => isFiniteNumber(value) && value > 0;
 
 /**
  * @name 判断一个数值是否为负数
@@ -105,7 +105,7 @@ export const isPositive = (value) => isFiniteNumber(value) && value > 0;
  *
  * @return {Boolean} 真或假
  */
-export const isNegative = (value) => isFiniteNumber(value) && value < 0;
+export const isNegative = value => isFiniteNumber(value) && value < 0;
 
 /**
  * @name 判断一个数值是否为正整数
@@ -114,7 +114,7 @@ export const isNegative = (value) => isFiniteNumber(value) && value < 0;
  *
  * @return {Boolean} 真或假
  */
-export const isPosiInteger = (value) => isInteger(value) && isPositive(value);
+export const isPosiInteger = value => isInteger(value) && isPositive(value);
 
 /**
  * @name 判断一个数值是否为负整数
@@ -123,7 +123,7 @@ export const isPosiInteger = (value) => isInteger(value) && isPositive(value);
  *
  * @return {Boolean} 真或假
  */
-export const isNegaInteger = (value) => isInteger(value) && isNegative(value);
+export const isNegaInteger = value => isInteger(value) && isNegative(value);
 
 /**
  * @name 判断一个数值是否为浮点数，包括正浮点数和负浮点数
@@ -132,7 +132,7 @@ export const isNegaInteger = (value) => isInteger(value) && isNegative(value);
  *
  * @return {Boolean} 真或假
  */
-export const isFloat = (value) => isFiniteNumber(value) && !isInteger(value);
+export const isFloat = value => isFiniteNumber(value) && !isInteger(value);
 
 /**
  * @name 判断一个数值是否为正浮点数
@@ -141,7 +141,7 @@ export const isFloat = (value) => isFiniteNumber(value) && !isInteger(value);
  *
  * @return {Boolean} 真或假
  */
-export const isPosiFloat = (value) => isFloat(value) && isPositive(value);
+export const isPosiFloat = value => isFloat(value) && isPositive(value);
 
 /**
  * @name 判断一个数值是否为负浮点数
@@ -150,7 +150,7 @@ export const isPosiFloat = (value) => isFloat(value) && isPositive(value);
  *
  * @return {Boolean} 真或假
  */
-export const isNegaFloat = (value) => isFloat(value) && isNegative(value);
+export const isNegaFloat = value => isFloat(value) && isNegative(value);
 
 /**
  * @name 判断一个值是否为一个长度值
@@ -159,7 +159,7 @@ export const isNegaFloat = (value) => isFloat(value) && isNegative(value);
  *
  * @return {Boolean} 真或假
  */
-export const isLength = (value) => isSafeInteger(value) && value > -1;
+export const isLength = value => isSafeInteger(value) && value > -1;
 
 /**
  * @name 判断一个对象的数据类型是否为字符串
@@ -168,7 +168,7 @@ export const isLength = (value) => isSafeInteger(value) && value > -1;
  *
  * @return {Boolean} 真或假
  */
-export const isString = (value) => typeof value === 'string';
+export const isString = value => typeof value === 'string';
 
 /**
  * @name 判断一个对象的数据类型是否为函数
@@ -177,7 +177,7 @@ export const isString = (value) => typeof value === 'string';
  *
  * @return {Boolean} 真或假
  */
-export const isFunction = (value) => typeof value === 'function';
+export const isFunction = value => typeof value === 'function';
 
 /**
  * @name 判断一个对象的数据类型是否为类对象，包括原生对象/构造实例/数组
@@ -186,16 +186,7 @@ export const isFunction = (value) => typeof value === 'function';
  *
  * @return {Boolean} 真或假
  */
-export const isObjectLike = (value) => !isNull(value) && typeof value === 'object';
-
-/**
- * @name 判断一个对象的数据类型是否为对象，包括原生对象和构造实例
- *
- * @param {Anything} value 任何类型的数据
- *
- * @return {Boolean} 真或假
- */
-export const isObject = (value) => isObjectLike(value) || isFunction(value);
+export const isObjectLike = value => !isNull(value) && typeof value === 'object';
 
 /**
  * @name 判断一个对象的数据类型是否为对象，包括原生对象
@@ -204,7 +195,16 @@ export const isObject = (value) => isObjectLike(value) || isFunction(value);
  *
  * @return {Boolean} 真或假
  */
-export const isPlainObject = (value) => isObjectLike(value) && value.constructor === Object;
+export const isPlainObject = value => isObjectLike(value) && value.constructor === Object;
+
+/**
+ * @name 判断一个对象是否不可枚举属性
+ *
+ * @param {Anything} value 任何类型的数据
+ *
+ * @return {Boolean} 真或假
+ */
+export const isEmptyObject = value => isPlainObject(value) && Object.keys(value).length === 0;
 
 /**
  * @name 判断一个对象的数据类型是否为数组
@@ -213,7 +213,7 @@ export const isPlainObject = (value) => isObjectLike(value) && value.constructor
  *
  * @return {Boolean} 真或假
  */
-export const isArray = (value) => isTypeOf(value, 'array');
+export const isArray = value => isTypeOf(value, 'array');
 
 /**
  * @name 判断一个对象的数据类型是否为类数组对象，包括Array/String/NodeList/Arguments等
@@ -222,7 +222,7 @@ export const isArray = (value) => isTypeOf(value, 'array');
  *
  * @return {Boolean} 真或假
  */
-export const isArrayLike = (value) => !isNull(value) && !isFunction(value) && isLength(value.length);
+export const isArrayLike = value => !isNull(value) && !isFunction(value) && !isPlainObject(value) && isLength(value.length);
 
 /**
  * @name 判断一个对象的数据类型是否为正则表达式
@@ -231,7 +231,7 @@ export const isArrayLike = (value) => !isNull(value) && !isFunction(value) && is
  *
  * @return {Boolean} 真或假
  */
-export const isRegExp = (value) => isTypeOf(value, 'regexp');
+export const isRegExp = value => isTypeOf(value, 'regexp');
 
 /**
  * @name 判断一个对象的数据类型是否为日期
@@ -240,7 +240,7 @@ export const isRegExp = (value) => isTypeOf(value, 'regexp');
  *
  * @return {Boolean} 真或假
  */
-export const isDate = (value) => isTypeOf(value, 'date');
+export const isDate = value => isTypeOf(value, 'date');
 
 /**
  * @name 判断一个对象的数据类型是否为Error类型
@@ -249,7 +249,7 @@ export const isDate = (value) => isTypeOf(value, 'date');
  *
  * @return {Boolean} 真或假
  */
-export const isError = (value) => isTypeOf(value, 'error');
+export const isError = value => isTypeOf(value, 'error');
 
 /**
  * @name 判断一个对象的数据类型是否为Arguments
@@ -258,7 +258,7 @@ export const isError = (value) => isTypeOf(value, 'error');
  *
  * @return {Boolean} 真或假
  */
-export const isArguments = (value) => isTypeOf(value, 'arguments');
+export const isArguments = value => isTypeOf(value, 'arguments');
 
 /**
  * @name 对一个对象/字符串/正整数进行遍历
@@ -392,7 +392,7 @@ export const assign = (target, ...sources) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimRegex = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
-export const trim = (target) => {
+export const trim = target => {
   if (!isString(target)) throw new TypeError('trim: target must b a String');
 
   return isFunction(String.prototype.trim) ? target.trim() : target.replace(trimRegex, '');
@@ -408,7 +408,7 @@ export const trim = (target) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimLeftRegex = /^[\s\uFEFF\xA0]+/;
-export const trimLeft = (target) => {
+export const trimLeft = target => {
   if (!isString(target)) throw new TypeError('trimLeft: target must b a String');
 
   return isFunction(String.prototype.trimLeft) ? target.trimLeft() : target.replace(trimLeftRegex, '');
@@ -424,7 +424,7 @@ export const trimLeft = (target) => {
  * @url: https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
  */
 const trimRightRegex = /[\s\uFEFF\xA0]+$/;
-export const trimRight = (target) => {
+export const trimRight = target => {
   if (!isString(target)) throw new TypeError('trimRight: target must b a String');
 
   return isFunction(String.prototype.trimRight) ? target.trimRight() : target.replace(trimRightRegex, '');
@@ -557,7 +557,7 @@ export const separate = (source, rule = 4, separator = ' ') => {
  *
  * @return {Array} 清空后的数组
  */
-export const empty = (target) => {
+export const empty = target => {
   if (!isArray(target)) throw new TypeError('empty: target must be a Array');
 
   // 清空所有的值
