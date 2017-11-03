@@ -10,7 +10,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * https://github.com/shusiwei/tiny-node
  * Licensed under the MIT license.
  */
-import { isPlainObject, isString, forEach, isPosiInteger, trim } from './index';
+import { isUndefined, isNull, isPlainObject, isString, forEach, isPosiInteger, trim } from './index';
 
 var _window = window,
     document = _window.document;
@@ -110,7 +110,7 @@ export var serialize = function serialize() {
     if (!isPlainObject(source)) throw new TypeError('source must b a plain Object');
 
     for (var key in source) {
-      if (source[key] !== undefined) result.push(key + '=' + encodeURIComponent(trim(source[key].toString())));
+      if (!isUndefined(source[key]) && !isNull(source[key])) result.push(key + '=' + encodeURIComponent(trim(source[key].toString())));
     };
   };
 
